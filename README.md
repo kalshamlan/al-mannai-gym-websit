@@ -44,7 +44,10 @@ flags this too).
 
 ## Before launch — outstanding placeholders
 
-- **Trainer hours** on `facilities.html` are marked "Placeholder — confirm real hours".
+- ~~**Trainer hours**~~ — **confirmed 4 Aug 2026: trainers are on the floor 24 hours**, the
+  same as the gym. The placeholder flag is gone from `facilities.html`, and the hour slider
+  on `index.html` now shows the "trainer on the floor" chip at every hour instead of only
+  through the peaks (`js/site.js`).
 - **Payment** on `join.html` needs a real payment provider; until then members pay at reception.
 - Review count / rating ("4.8 · 15 reviews · July 2026") — update as reviews grow.
 

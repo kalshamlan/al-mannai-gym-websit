@@ -255,9 +255,10 @@
       hourTime.textContent = (h < 10 ? '0' + h : h) + ':00';
       hourLabel.textContent = slot.label;
       hourCopy.textContent = slot.copy;
-      // trainer presence mirrors the published floor hours (placeholder until confirmed)
-      var trainerOn = (h >= 6 && h <= 10) || (h >= 16 && h <= 22);
-      if (trainerChip) trainerChip.style.display = trainerOn ? '' : 'none';
+      // Trainers are on the floor 24 hours (confirmed by the gym, 4 Aug 2026),
+      // so the chip never hides. Kept as an element rather than deleted: it is
+      // the point of the slider that whatever hour you drag to, someone is there.
+      if (trainerChip) trainerChip.style.display = '';
       hourSlider.value = h;
       hourSlider.style.setProperty('--fill', (h / 23) * 100 + '%');
     }
