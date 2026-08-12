@@ -1,11 +1,14 @@
 /* Al Mannai Gym — site.js
    Implements the behaviour of "Al Mannai Gym Website.dc.html":
    active nav, mobile menu, reveal-on-scroll, join-page plan summary,
-   and form hand-off to WhatsApp (no backend required). */
+   and form hand-off to WhatsApp (no backend required).
+   The -ar pages reuse this file: AR below switches every user-facing
+   string the script produces, keyed off <html lang="ar">. */
 (function () {
   'use strict';
 
   var WA = 'https://wa.me/97333335681';
+  var AR = (document.documentElement.lang || '').toLowerCase().indexOf('ar') === 0;
 
   /* ── Active nav ── */
   var page = document.body.getAttribute('data-page') || '';
@@ -80,15 +83,34 @@
 
   /* ── Join page: plan summary from ?plan= ── */
   var PLANS = {
-    '1m':   { name: '1 month',           price: '38.5', note: 'Rolling membership. Cancel any time.' },
-    '3m':   { name: '3 months',          price: '99',   note: 'Renew on time and your next 3 months are 77 BHD.' },
-    '6m':   { name: '6 months',          price: '154',  note: 'Renew on time and your next 6 months are 132 BHD.' },
-    '1y':   { name: '1 year',            price: '220',  note: 'Renew on time and your next year is 192.5 BHD.' },
-    // Easy Pay and the group rate were missing from this map, so they could
-    // not be reserved at all — even though both are advertised on /offers.
-    'easy': { name: 'Easy Pay · 1 year', price: '264',  note: 'Four monthly instalments of 66 BHD, with three days’ grace on each.' },
-    'plat': { name: 'Platinum · 1 year', price: '330',  note: 'A free guest on every visit, plus two 1-month memberships to gift.' },
-    'grp':  { name: 'Group · 1 year',    price: '176',  note: 'Per person, for ten people or more on annual memberships.' }
+    '1m':   { name: '1 month',           ar: 'شهر واحد',
+              price: '38.5',
+              note: 'Rolling membership. Cancel any time.',
+              arNote: 'اشتراك شهري متجدد. توقّف متى شئت.' },
+    '3m':   { name: '3 months',          ar: '٣ أشهر',
+              price: '99',
+              note: 'Renew on time and your next 3 months are 77 BHD.',
+              arNote: 'جدّد في موعدك وتكون الأشهر الثلاثة التالية بـ 77 د.ب.' },
+    '6m':   { name: '6 months',          ar: '٦ أشهر',
+              price: '154',
+              note: 'Renew on time and your next 6 months are 132 BHD.',
+              arNote: 'جدّد في موعدك وتكون الأشهر الستة التالية بـ 132 د.ب.' },
+    '1y':   { name: '1 year',            ar: 'سنة كاملة',
+              price: '220',
+              note: 'Renew on time and your next year is 192.5 BHD.',
+              arNote: 'جدّد في موعدك وتكون سنتك التالية بـ 192.5 د.ب.' },
+    'easy': { name: 'Easy Pay · 1 year', ar: 'الدفع الميسّر · سنة',
+              price: '264',
+              note: 'Four monthly instalments of 66 BHD, with three days’ grace on each.',
+              arNote: 'أربعة أقساط شهرية بقيمة 66 د.ب، مع مهلة ثلاثة أيام على كل قسط.' },
+    'plat': { name: 'Platinum · 1 year', ar: 'بلاتينيوم · سنة',
+              price: '330',
+              note: 'A free guest on every visit, plus two 1-month memberships to gift.',
+              arNote: 'ضيف مجاني في كل زيارة، واشتراكان شهريان تهديهما لمن تشاء.' },
+    'grp':  { name: 'Group · 1 year',    ar: 'مجموعة · سنة',
+              price: '176',
+              note: 'Per person, for ten people or more on annual memberships.',
+              arNote: 'للفرد الواحد، لعشرة أشخاص فأكثر باشتراكات سنوية.' }
   };
   var planNameEl = document.getElementById('plan-name');
   if (planNameEl) {
@@ -99,9 +121,9 @@
 
     function renderPlan() {
       var plan = PLANS[current];
-      planNameEl.textContent = plan.name;
+      planNameEl.textContent = AR ? plan.ar : plan.name;
       document.getElementById('plan-price').textContent = plan.price;
-      document.getElementById('plan-note').textContent = plan.note;
+      document.getElementById('plan-note').textContent = AR ? plan.arNote : plan.note;
       if (planSelect && planSelect.value !== current) planSelect.value = current;
     }
     renderPlan();
@@ -118,13 +140,23 @@
       // Read the plan at CLICK time — it used to be captured once at page
       // load, so a changed selection would have sent the wrong plan.
       var plan = PLANS[current];
-      toWhatsApp([
-        'Hello, I’d like to reserve the ' + plan.name + ' membership (' + plan.price + ' BHD).',
-        val(joinForm, 'name')  && 'Name: '   + val(joinForm, 'name'),
-        val(joinForm, 'phone') && 'Mobile: ' + val(joinForm, 'phone'),
-        val(joinForm, 'email') && 'Email: '  + val(joinForm, 'email'),
-        val(joinForm, 'start') && 'Start date: ' + val(joinForm, 'start')
-      ]);
+      if (AR) {
+        toWhatsApp([
+          'السلام عليكم، أود حجز اشتراك ' + plan.ar + ' (' + plan.price + ' د.ب).',
+          val(joinForm, 'name')  && 'الاسم: '        + val(joinForm, 'name'),
+          val(joinForm, 'phone') && 'الجوال: '       + val(joinForm, 'phone'),
+          val(joinForm, 'email') && 'البريد: '       + val(joinForm, 'email'),
+          val(joinForm, 'start') && 'تاريخ البدء: ' + val(joinForm, 'start')
+        ]);
+      } else {
+        toWhatsApp([
+          'Hello, I’d like to reserve the ' + plan.name + ' membership (' + plan.price + ' BHD).',
+          val(joinForm, 'name')  && 'Name: '   + val(joinForm, 'name'),
+          val(joinForm, 'phone') && 'Mobile: ' + val(joinForm, 'phone'),
+          val(joinForm, 'email') && 'Email: '  + val(joinForm, 'email'),
+          val(joinForm, 'start') && 'Start date: ' + val(joinForm, 'start')
+        ]);
+      }
     });
   }
 
@@ -133,14 +165,25 @@
   if (trialForm) {
     trialForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      toWhatsApp([
-        'Hello, I’d like to book a free trial session.',
-        val(trialForm, 'name')  && 'Name: '   + val(trialForm, 'name'),
-        val(trialForm, 'phone') && 'Mobile: ' + val(trialForm, 'phone'),
-        val(trialForm, 'day')   && 'Day: '    + val(trialForm, 'day'),
-        val(trialForm, 'time')  && 'Time: '   + val(trialForm, 'time'),
-        val(trialForm, 'notes') && 'Notes: '  + val(trialForm, 'notes')
-      ]);
+      if (AR) {
+        toWhatsApp([
+          'السلام عليكم، أود حجز جلسة تجربة مجانية.',
+          val(trialForm, 'name')  && 'الاسم: '     + val(trialForm, 'name'),
+          val(trialForm, 'phone') && 'الجوال: '    + val(trialForm, 'phone'),
+          val(trialForm, 'day')   && 'اليوم: '     + val(trialForm, 'day'),
+          val(trialForm, 'time')  && 'الوقت: '     + val(trialForm, 'time'),
+          val(trialForm, 'notes') && 'ملاحظات: '   + val(trialForm, 'notes')
+        ]);
+      } else {
+        toWhatsApp([
+          'Hello, I’d like to book a free trial session.',
+          val(trialForm, 'name')  && 'Name: '   + val(trialForm, 'name'),
+          val(trialForm, 'phone') && 'Mobile: ' + val(trialForm, 'phone'),
+          val(trialForm, 'day')   && 'Day: '    + val(trialForm, 'day'),
+          val(trialForm, 'time')  && 'Time: '   + val(trialForm, 'time'),
+          val(trialForm, 'notes') && 'Notes: '  + val(trialForm, 'notes')
+        ]);
+      }
     });
   }
 
@@ -149,21 +192,33 @@
   if (corpForm) {
     corpForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      toWhatsApp([
-        'Hello, I’d like to enquire about a corporate / group membership.',
-        val(corpForm, 'company') && 'Company or group: ' + val(corpForm, 'company'),
-        val(corpForm, 'contact') && 'Contact: ' + val(corpForm, 'contact'),
-        val(corpForm, 'phone')   && 'Mobile: '  + val(corpForm, 'phone'),
-        val(corpForm, 'size')    && 'Group size: ' + val(corpForm, 'size'),
-        val(corpForm, 'email')   && 'Work email: ' + val(corpForm, 'email'),
-        val(corpForm, 'notes')   && 'Notes: '   + val(corpForm, 'notes')
-      ]);
+      if (AR) {
+        toWhatsApp([
+          'السلام عليكم، أود الاستفسار عن اشتراك الشركات / المجموعات.',
+          val(corpForm, 'company') && 'الشركة أو المجموعة: ' + val(corpForm, 'company'),
+          val(corpForm, 'contact') && 'اسم المسؤول: '        + val(corpForm, 'contact'),
+          val(corpForm, 'phone')   && 'الجوال: '             + val(corpForm, 'phone'),
+          val(corpForm, 'size')    && 'عدد الأشخاص: '        + val(corpForm, 'size'),
+          val(corpForm, 'email')   && 'البريد: '             + val(corpForm, 'email'),
+          val(corpForm, 'notes')   && 'ملاحظات: '            + val(corpForm, 'notes')
+        ]);
+      } else {
+        toWhatsApp([
+          'Hello, I’d like to enquire about a corporate / group membership.',
+          val(corpForm, 'company') && 'Company or group: ' + val(corpForm, 'company'),
+          val(corpForm, 'contact') && 'Contact: ' + val(corpForm, 'contact'),
+          val(corpForm, 'phone')   && 'Mobile: '  + val(corpForm, 'phone'),
+          val(corpForm, 'size')    && 'Group size: ' + val(corpForm, 'size'),
+          val(corpForm, 'email')   && 'Work email: ' + val(corpForm, 'email'),
+          val(corpForm, 'notes')   && 'Notes: '   + val(corpForm, 'notes')
+        ]);
+      }
     });
   }
 
-  /* ═══════════════════════════════════════════════════════
+  /* ═══════════════════════════════════════════════════════════
      Interactive layer
-     ═══════════════════════════════════════════════════════ */
+     ═══════════════════════════════════════════════════════════ */
 
   /* ── Scroll progress bar ── */
   var progress = document.createElement('div');
@@ -187,7 +242,7 @@
   fab.href = WA;
   fab.target = '_blank';
   fab.rel = 'noopener';
-  fab.setAttribute('aria-label', 'WhatsApp Al Mannai Gym');
+  fab.setAttribute('aria-label', AR ? 'واتساب نادي المناعي الرياضي' : 'WhatsApp Al Mannai Gym');
   fab.innerHTML = '<svg viewBox="0 0 448 512" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>';
   document.body.appendChild(fab);
 
@@ -258,7 +313,20 @@
   /* ── "Pick an hour" widget (home) ── */
   var hourSlider = document.getElementById('hour-slider');
   if (hourSlider) {
-    var HOURS = [
+    var HOURS = AR ? [
+      { from: 0,  to: 4,  label: 'وردية الليل',
+        copy: 'صالة هادئة، كل الأجهزة متاحة، ومنطقة الكارديو لك وحدك. عمال الورديات وسهّيرة الليل يتدربون هنا — والاستقبال ما زال موجوداً.' },
+      { from: 5,  to: 7,  label: 'قبل الشروق',
+        copy: 'تدخل قبل طلوع الشمس وتخرج قبل الدوام. الساونا جاهزة والصالة هادئة.' },
+      { from: 8,  to: 11, label: 'الصباح',
+        copy: 'طلاب، وعمال ورديات خارجون من الليل، وروّاد الصباح. المدربون في الصالة إن أردت من يراجع أداءك.' },
+      { from: 12, to: 15, label: 'الظهيرة',
+        copy: 'فترة أهدأ — تمارين استراحة الغداء، لا طوابير على الأجهزة، وجناح الاستشفاء لك وحدك.' },
+      { from: 16, to: 19, label: 'وقت الذروة',
+        copy: 'أكثر الساعات حيوية — طاقة كاملة، مدربون في الصالة، وكل جهاز يعمل. تعال من أجل الأجواء.' },
+      { from: 20, to: 23, label: 'الجلسة المتأخرة',
+        copy: 'تدرّب متأخراً، ثم ساونا وبخار وجاكوزي قبل العودة للبيت. لا يوجد جرس إغلاق هنا.' }
+    ] : [
       { from: 0,  to: 4,  label: 'The night shift',  copy: 'Quiet floor, every rack free, the whole cardio centre to yourself. Night-shift workers and night owls train here — and reception is still staffed.' },
       { from: 5,  to: 7,  label: 'First light',      copy: 'In before sunrise, out before work. The sauna is already hot and the floor is calm.' },
       { from: 8,  to: 11, label: 'Morning',          copy: 'Students, shift workers coming off nights, and the early crowd. Trainers are on the floor if you want a form check.' },
@@ -313,11 +381,17 @@
       });
       if (pdNote) {
         if (pdState.rate === 'loyal' && p.loyal === null) {
-          pdNote.textContent = 'The loyalty rate starts from 3-month plans — showing the standard rate.';
+          pdNote.textContent = AR
+            ? 'سعر الوفاء يبدأ من باقة الثلاثة أشهر — المعروض هو السعر القياسي.'
+            : 'The loyalty rate starts from 3-month plans — showing the standard rate.';
         } else if (pdState.rate === 'loyal') {
-          pdNote.textContent = 'Loyalty rate: ' + price + ' BHD when you renew on time.';
+          pdNote.textContent = AR
+            ? 'سعر الوفاء: ' + price + ' د.ب عند التجديد في الموعد.'
+            : 'Loyalty rate: ' + price + ' BHD when you renew on time.';
         } else {
-          pdNote.textContent = 'Standard rate: ' + price + ' BHD for the full plan.';
+          pdNote.textContent = AR
+            ? 'السعر القياسي: ' + price + ' د.ب للباقة كاملة.'
+            : 'Standard rate: ' + price + ' BHD for the full plan.';
         }
       }
       if (!animate || reduced) { pdNum.textContent = perDay.toFixed(2); pdShown = perDay; return; }

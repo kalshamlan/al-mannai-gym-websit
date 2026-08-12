@@ -504,3 +504,32 @@ body { animation: amgPageIn 320ms ease both; }
   .livechip .dot, .wa-fab { animation: none; }
   .btn::before { display: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   Arabic / RTL layer — the -ar pages reuse every component.
+   Letter-spacing must be zero in Arabic: added tracking pulls
+   the joined script apart. Cairo replaces all three Latin faces.
+   ═══════════════════════════════════════════════════════════ */
+[dir="rtl"] body,
+[dir="rtl"] input, [dir="rtl"] select, [dir="rtl"] textarea, [dir="rtl"] button,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+[dir="rtl"] div, [dir="rtl"] p, [dir="rtl"] a, [dir="rtl"] span, [dir="rtl"] strong {
+  font-family: 'Cairo', sans-serif;
+}
+[dir="rtl"] .navlink, [dir="rtl"] .mnavlink, [dir="rtl"] .btn, [dir="rtl"] .eyebrow,
+[dir="rtl"] .chip, [dir="rtl"] .chiplink, [dir="rtl"] .f-caption, [dir="rtl"] .flink,
+[dir="rtl"] .backlink, [dir="rtl"] .livechip, [dir="rtl"] .pd-btn,
+[dir="rtl"] .quote .who, [dir="rtl"] .faq summary, [dir="rtl"] .hour-label,
+[dir="rtl"] .hour-scale {
+  letter-spacing: 0;
+}
+/* the red kick mirrors with the reading direction */
+[dir="rtl"] .kick { transform: skewX(11deg); }
+/* quotes carry their red rule on the reading side */
+[dir="rtl"] .quote {
+  border-left: none;
+  border-right: 4px solid #E4121B;
+  padding: 6px clamp(18px, 2.4vw, 26px) 6px 0;
+}
+/* numerals and phone numbers stay left-to-right inside RTL text */
+[dir="rtl"] .ltr-num { direction: ltr; unicode-bidi: isolate; display: inline-block; }
