@@ -70,3 +70,19 @@ Then open http://localhost:8123
    work too. Delete or replace it whenever.
 3. **In person.** Run the local preview command above and walk through it
    on your laptop — the slider, calculator and WhatsApp flow demo best live.
+
+## Join page — payment (12 Aug 2026)
+
+The card fields and the "needs a payment provider" badge were removed from
+`join.html` on Khalid's instruction. Disabled inputs and an internal-looking
+badge read to a member as a **broken checkout** — they cannot tell an
+unfinished form from one that is refusing them, and the page appeared to
+collect payment while collecting nothing.
+
+The journey is now: reserve the plan online, pay at reception. Step 3 of the
+progress bar reads "At reception" rather than "Payment", so the three steps
+still describe the real process.
+
+▶ **When the merchant account is live**, restore a real payment step — do not
+re-add disabled fields as a placeholder. Until then nothing on the public
+site should imply an online charge.

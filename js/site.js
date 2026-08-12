@@ -84,19 +84,40 @@
     '3m':   { name: '3 months',          price: '99',   note: 'Renew on time and your next 3 months are 77 BHD.' },
     '6m':   { name: '6 months',          price: '154',  note: 'Renew on time and your next 6 months are 132 BHD.' },
     '1y':   { name: '1 year',            price: '220',  note: 'Renew on time and your next year is 192.5 BHD.' },
-    'plat': { name: 'Platinum · 1 year', price: '330', note: 'A free guest on every visit, plus two 1-month memberships to gift.' }
+    // Easy Pay and the group rate were missing from this map, so they could
+    // not be reserved at all — even though both are advertised on /offers.
+    'easy': { name: 'Easy Pay · 1 year', price: '264',  note: 'Four monthly instalments of 66 BHD, with three days’ grace on each.' },
+    'plat': { name: 'Platinum · 1 year', price: '330',  note: 'A free guest on every visit, plus two 1-month memberships to gift.' },
+    'grp':  { name: 'Group · 1 year',    price: '176',  note: 'Per person, for ten people or more on annual memberships.' }
   };
   var planNameEl = document.getElementById('plan-name');
   if (planNameEl) {
+    var planSelect = document.getElementById('plan-select');
     var key = new URLSearchParams(window.location.search).get('plan');
-    var plan = PLANS[key] || PLANS['1y'];
-    planNameEl.textContent = plan.name;
-    document.getElementById('plan-price').textContent = plan.price;
-    document.getElementById('plan-note').textContent = plan.note;
+    // ?plan= only PRESELECTS now; the member can change it on the page.
+    var current = PLANS[key] ? key : '1y';
+
+    function renderPlan() {
+      var plan = PLANS[current];
+      planNameEl.textContent = plan.name;
+      document.getElementById('plan-price').textContent = plan.price;
+      document.getElementById('plan-note').textContent = plan.note;
+      if (planSelect && planSelect.value !== current) planSelect.value = current;
+    }
+    renderPlan();
+
+    if (planSelect) {
+      planSelect.addEventListener('change', function () {
+        if (PLANS[planSelect.value]) { current = planSelect.value; renderPlan(); }
+      });
+    }
 
     var joinForm = document.getElementById('join-form');
     document.getElementById('reserve-btn').addEventListener('click', function () {
       // Reservation goes to reception on WhatsApp. Card details are never sent.
+      // Read the plan at CLICK time — it used to be captured once at page
+      // load, so a changed selection would have sent the wrong plan.
+      var plan = PLANS[current];
       toWhatsApp([
         'Hello, I’d like to reserve the ' + plan.name + ' membership (' + plan.price + ' BHD).',
         val(joinForm, 'name')  && 'Name: '   + val(joinForm, 'name'),

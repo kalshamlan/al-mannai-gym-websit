@@ -22,6 +22,7 @@
     <nav class="nav-desktop" aria-label="Main">
       <a class="navlink" data-nav="home" href="index.html">Home</a>
       <a class="navlink" data-nav="memberships" href="memberships.html">Memberships</a>
+      <a class="navlink" data-nav="offers" href="offers.html">Offers</a>
       <a class="navlink" data-nav="facilities" href="facilities.html">Facilities</a>
       <a class="navlink" data-nav="corporate" href="corporate.html">Corporate</a>
       <a class="navlink" data-nav="about" href="about.html">About</a>
@@ -35,6 +36,7 @@
   <nav class="nav-mobile" aria-label="Mobile">
     <a class="mnavlink" href="index.html">Home</a>
     <a class="mnavlink" href="memberships.html">Memberships</a>
+    <a class="mnavlink" href="offers.html">Offers</a>
     <a class="mnavlink" href="facilities.html">Facilities</a>
     <a class="mnavlink" href="corporate.html">Corporate &amp; groups</a>
     <a class="mnavlink" href="about.html">About</a>
@@ -62,7 +64,7 @@
     </div>
     <div style="flex:1 1 140px; display:flex; flex-direction:column; gap:9px">
       <div style="height:4px; background:#2A2A2B"></div>
-      <div style="font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#8A8A87">03 — Payment</div>
+      <div style="font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#8A8A87">03 — At reception</div>
     </div>
   </div>
 
@@ -88,32 +90,32 @@
         </label>
       </div>
 
-      <div style="border:1px solid #232324; background:#121213; border-radius:5px; padding:clamp(22px,3vw,32px); display:flex; flex-direction:column; gap:18px">
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap">
-          <div style="font-family:'Oswald',sans-serif; font-weight:600; font-size:15px; letter-spacing:0.2em; text-transform:uppercase">Payment</div>
-          <div class="todo-flag" style="padding:6px 10px">Needs a payment provider</div>
-        </div>
-        <label class="f-label">
-          <span class="f-caption">Card number</span>
-          <input class="field" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" disabled>
-        </label>
-        <div style="display:flex; gap:14px; flex-wrap:wrap">
-          <label class="f-label" style="flex:1 1 130px">
-            <span class="f-caption">Expiry</span>
-            <input class="field" type="text" placeholder="MM / YY" disabled>
-          </label>
-          <label class="f-label" style="flex:1 1 130px">
-            <span class="f-caption">CVC</span>
-            <input class="field" type="text" placeholder="000" disabled>
-          </label>
-        </div>
-        <div style="font-family:'Barlow',sans-serif; font-size:15px; line-height:1.55; color:#8A8A87">Card payment goes live once the gym's merchant account is set up. Until then, reserve your plan and pay at reception — or send it straight to WhatsApp.</div>
+      <!-- Payment is taken at reception. Nothing on this page collects it. -->
+      <div style="border:1px solid #232324; background:#121213; border-radius:5px; padding:clamp(22px,3vw,32px); display:flex; flex-direction:column; gap:14px">
+        <div style="font-family:'Oswald',sans-serif; font-weight:600; font-size:15px; letter-spacing:0.2em; text-transform:uppercase">How you pay</div>
+        <div style="font-family:'Barlow',sans-serif; font-size:17px; line-height:1.6; color:#C8C8C5">Reserve your plan here and pay at reception when you come in. We will have your membership ready in your name.</div>
+        <div style="font-family:'Barlow',sans-serif; font-size:15px; line-height:1.55; color:#8A8A87">Nothing is charged on this page, and we never ask for card details online.</div>
       </div>
     </div>
 
     <div style="flex:1 1 300px; display:flex; flex-direction:column; gap:16px; position:sticky; top:110px">
       <div style="border:1px solid #E4121B; background:#121213; border-radius:5px; padding:clamp(22px,3vw,32px); display:flex; flex-direction:column; gap:18px">
         <div style="font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#E4121B">Your plan</div>
+        <!-- The plan used to be fixed by ?plan= at page load with no way to
+             change it, so anyone arriving without the parameter was stuck on
+             the yearly. Easy Pay and the group rate were missing entirely. -->
+        <label class="f-label">
+          <span class="f-caption">Change plan</span>
+          <select id="plan-select" class="field">
+            <option value="1m">1 month — 38.5 BHD</option>
+            <option value="3m">3 months — 99 BHD</option>
+            <option value="6m">6 months — 154 BHD</option>
+            <option value="1y">1 year — 220 BHD</option>
+            <option value="easy">Easy Pay · 1 year — 4 × 66 BHD</option>
+            <option value="plat">Platinum · 1 year — 330 BHD</option>
+            <option value="grp">Group of 10+ · 1 year — 176 BHD each</option>
+          </select>
+        </label>
         <div id="plan-name" style="font-family:'Anton',sans-serif; font-size:clamp(23px, 2.59vw, 28px); line-height:1.06; text-transform:uppercase">1 year</div>
         <div style="display:flex; align-items:baseline; gap:9px; border-top:1px solid #2A2A2B; padding-top:18px">
           <span id="plan-price" style="font-family:'Anton',sans-serif; font-size:clamp(30px, 3.7vw, 46px); line-height:1">220</span>
@@ -170,6 +172,6 @@
 </footer>
 
 </div>
-<script src="js/site.js"></script>
+<script src="js/site.js?v=20260812"></script>
 </body>
 </html>
