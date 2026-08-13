@@ -1,5 +1,19 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.almannaigym.com" }],
+      "destination": "https://almannaigym.com/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.almannaigym.com" }],
+      "destination": "https://almannaigym.com/:path*",
+      "permanent": true
+    }
+  ]
 }
