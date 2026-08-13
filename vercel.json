@@ -14,6 +14,13 @@
       "has": [{ "type": "host", "value": "www.almannaigym.com" }],
       "destination": "https://almannaigym.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/offers",
+      "has": [{ "type": "header", "key": "accept-language", "value": "^ar\\b.*$" }],
+      "missing": [{ "type": "query", "key": "lang" }],
+      "destination": "/offers-ar",
+      "permanent": false
     }
   ]
 }
