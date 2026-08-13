@@ -531,5 +531,13 @@ body { animation: amgPageIn 320ms ease both; }
   border-right: 4px solid #E4121B;
   padding: 6px clamp(18px, 2.4vw, 26px) 6px 0;
 }
-/* numerals and phone numbers stay left-to-right inside RTL text */
-[dir="rtl"] .ltr-num { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+/* Numerals and phone numbers keep left-to-right character order inside RTL
+   text. As a flex item the inline-block is blockified to full width, and the
+   ltr direction would then drag the text to the left edge — so realign it to
+   the reading side. Harmless on the inline uses, which size to their content. */
+[dir="rtl"] .ltr-num {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  text-align: right;
+}
