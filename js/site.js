@@ -86,31 +86,31 @@
     '1m':   { name: '1 month',           ar: 'شهر واحد',
               price: '38.5',
               note: 'Rolling membership. Cancel any time.',
-              arNote: 'اشتراك شهراً بشهر، وتتوقف متى شئت.' },
-    '3m':   { name: '3 months',          ar: '٣ أشهر',
+              arNote: 'اشتراك لمدة شهر واحد، يجدد بناء على طلبك.' },
+    '3m':   { name: '3 months',          ar: '3 أشهر',
               price: '99',
               note: 'Renew on time and your next 3 months are 77 BHD.',
-              arNote: 'جدّد في موعدك وتكون الأشهر الثلاثة التالية بـ 77 د.ب.' },
-    '6m':   { name: '6 months',          ar: '٦ أشهر',
+              arNote: 'سعر التجديد في الموعد: 77 د.ب.' },
+    '6m':   { name: '6 months',          ar: '6 أشهر',
               price: '154',
               note: 'Renew on time and your next 6 months are 132 BHD.',
-              arNote: 'جدّد في موعدك وتكون الأشهر الستة التالية بـ 132 د.ب.' },
+              arNote: 'سعر التجديد في الموعد: 132 د.ب.' },
     '1y':   { name: '1 year',            ar: 'سنة كاملة',
               price: '220',
               note: 'Renew on time and your next year is 192.5 BHD.',
-              arNote: 'جدّد في موعدك وتكون سنتك التالية بـ 192.5 د.ب.' },
-    'easy': { name: 'Easy Pay · 1 year', ar: 'الدفع الميسّر · سنة',
+              arNote: 'سعر التجديد في الموعد: 192.5 د.ب.' },
+    'easy': { name: 'Easy Pay · 1 year', ar: 'الدفع الميسر',
               price: '264',
               note: 'Four monthly instalments of 66 BHD, with three days’ grace on each.',
-              arNote: 'أربعة أقساط شهرية بقيمة 66 د.ب للقسط، ولك مهلة ثلاثة أيام على كل قسط.' },
-    'plat': { name: 'Platinum · 1 year', ar: 'بلاتينيوم · سنة',
+              arNote: 'أربعة أقساط شهرية بقيمة 66 د.ب لكل قسط، بإجمالي 264 د.ب، مع مهلة ثلاثة أيام لكل قسط.' },
+    'plat': { name: 'Platinum · 1 year', ar: 'بلاتينيوم',
               price: '330',
               note: 'A free guest on every visit, plus two 1-month memberships to gift.',
-              arNote: 'ضيف مجاني يرافقك في كل زيارة، واشتراكان شهريان تهديهما لمن تشاء.' },
-    'grp':  { name: 'Group · 1 year',    ar: 'مجموعة · سنة',
+              arNote: 'ضيف مجاني في كل زيارة طوال العام، واشتراكان شهريان كهدية للأعضاء الجدد.' },
+    'grp':  { name: 'Group · 1 year',    ar: 'المجموعات',
               price: '176',
               note: 'Per person, for ten people or more on annual memberships.',
-              arNote: 'للفرد الواحد، لعشرة أشخاص فأكثر باشتراكات سنوية.' }
+              arNote: 'للفرد الواحد، لعشرة أشخاص فأكثر في اشتراكات سنوية.' }
   };
   var planNameEl = document.getElementById('plan-name');
   if (planNameEl) {
@@ -142,11 +142,11 @@
       var plan = PLANS[current];
       if (AR) {
         toWhatsApp([
-          'السلام عليكم، أود حجز اشتراك ' + plan.ar + ' (' + plan.price + ' د.ب).',
-          val(joinForm, 'name')  && 'الاسم: '        + val(joinForm, 'name'),
-          val(joinForm, 'phone') && 'الجوال: '       + val(joinForm, 'phone'),
-          val(joinForm, 'email') && 'البريد: '       + val(joinForm, 'email'),
-          val(joinForm, 'start') && 'تاريخ البدء: ' + val(joinForm, 'start')
+          'السلام عليكم، أرغب في الاشتراك بباقة ' + plan.ar + ' (' + plan.price + ' د.ب).',
+          val(joinForm, 'name')  && 'الاسم: '            + val(joinForm, 'name'),
+          val(joinForm, 'phone') && 'رقم الجوال: '       + val(joinForm, 'phone'),
+          val(joinForm, 'email') && 'البريد الإلكتروني: ' + val(joinForm, 'email'),
+          val(joinForm, 'start') && 'تاريخ بدء الاشتراك: ' + val(joinForm, 'start')
         ]);
       } else {
         toWhatsApp([
@@ -167,12 +167,12 @@
       e.preventDefault();
       if (AR) {
         toWhatsApp([
-          'السلام عليكم، أود حجز جلسة تجربة مجانية.',
-          val(trialForm, 'name')  && 'الاسم: '     + val(trialForm, 'name'),
-          val(trialForm, 'phone') && 'الجوال: '    + val(trialForm, 'phone'),
-          val(trialForm, 'day')   && 'اليوم: '     + val(trialForm, 'day'),
-          val(trialForm, 'time')  && 'الوقت: '     + val(trialForm, 'time'),
-          val(trialForm, 'notes') && 'ملاحظات: '   + val(trialForm, 'notes')
+          'السلام عليكم، أرغب في حجز جلسة تجربة مجانية.',
+          val(trialForm, 'name')  && 'الاسم: '           + val(trialForm, 'name'),
+          val(trialForm, 'phone') && 'رقم الجوال: '      + val(trialForm, 'phone'),
+          val(trialForm, 'day')   && 'اليوم: '           + val(trialForm, 'day'),
+          val(trialForm, 'time')  && 'الوقت التقريبي: '  + val(trialForm, 'time'),
+          val(trialForm, 'notes') && 'ملاحظات إضافية: '  + val(trialForm, 'notes')
         ]);
       } else {
         toWhatsApp([
@@ -194,13 +194,13 @@
       e.preventDefault();
       if (AR) {
         toWhatsApp([
-          'السلام عليكم، أود الاستفسار عن اشتراك الشركات / المجموعات.',
-          val(corpForm, 'company') && 'الشركة أو المجموعة: ' + val(corpForm, 'company'),
-          val(corpForm, 'contact') && 'اسم المسؤول: '        + val(corpForm, 'contact'),
-          val(corpForm, 'phone')   && 'الجوال: '             + val(corpForm, 'phone'),
-          val(corpForm, 'size')    && 'عدد الأشخاص: '        + val(corpForm, 'size'),
-          val(corpForm, 'email')   && 'البريد: '             + val(corpForm, 'email'),
-          val(corpForm, 'notes')   && 'ملاحظات: '            + val(corpForm, 'notes')
+          'السلام عليكم، أرغب في الاستفسار عن اشتراك الشركات والمجموعات.',
+          val(corpForm, 'company') && 'اسم الشركة أو المجموعة: ' + val(corpForm, 'company'),
+          val(corpForm, 'contact') && 'اسم المسؤول: '            + val(corpForm, 'contact'),
+          val(corpForm, 'phone')   && 'رقم الجوال: '             + val(corpForm, 'phone'),
+          val(corpForm, 'size')    && 'عدد الأشخاص: '            + val(corpForm, 'size'),
+          val(corpForm, 'email')   && 'بريد العمل: '             + val(corpForm, 'email'),
+          val(corpForm, 'notes')   && 'تفاصيل إضافية: '          + val(corpForm, 'notes')
         ]);
       } else {
         toWhatsApp([
@@ -314,18 +314,18 @@
   var hourSlider = document.getElementById('hour-slider');
   if (hourSlider) {
     var HOURS = AR ? [
-      { from: 0,  to: 4,  label: 'وردية الليل',
-        copy: 'صالة هادئة، وكل الأجهزة في انتظارك، ومنطقة الكارديو لك وحدك. في هذه الساعة يتدرب أصحاب الورديات وسهارى الليل، والاستقبال مستمر كعادته.' },
-      { from: 5,  to: 7,  label: 'قبل الشروق',
-        copy: 'تدخل قبل طلوع الشمس وتخرج قبل الدوام؛ الساونا جاهزة والصالة على هدوئها.' },
+      { from: 0,  to: 4,  label: 'بعد منتصف الليل',
+        copy: 'النادي مفتوح بالكامل في هذه الساعات، مع أجواء هادئة تتيح لك التدريب براحة واستخدام الأجهزة من دون انتظار.' },
+      { from: 5,  to: 7,  label: 'الصباح الباكر',
+        copy: 'بداية مبكرة قبل مواعيد العمل، مع أجواء هادئة وجميع المرافق متاحة، بما في ذلك جناح الاستشفاء.' },
       { from: 8,  to: 11, label: 'الصباح',
-        copy: 'طلاب، وأصحاب ورديات خرجوا للتو من عمل الليل، وروّاد الصباح المعتادون. والمدربون في الصالة إن أحببت من يراجع أداءك.' },
-      { from: 12, to: 15, label: 'الظهيرة',
-        copy: 'أهدأ فترات اليوم: تمارين استراحة الغداء بلا انتظار على أي جهاز، وجناح الاستشفاء يكاد يكون لك وحدك.' },
+        copy: 'وقت مناسب لرواد الصباح، والطلاب، وأصحاب الورديات الليلية. كما يتواجد المدربون خلال ساعات الإشراف المحددة لمساعدتك عند الحاجة.' },
+      { from: 12, to: 15, label: 'منتصف اليوم',
+        copy: 'فترة أهدأ تناسب التدريب خلال استراحة العمل، مع توفر الأجهزة وجناح الاستشفاء من دون ازدحام.' },
       { from: 16, to: 19, label: 'وقت الذروة',
-        copy: 'أكثر ساعات النادي حيوية: حماس في كل زاوية، ومدربون في الصالة، وكل جهاز يعمل. تعال وعش الأجواء بنفسك.' },
-      { from: 20, to: 23, label: 'آخر الليل',
-        copy: 'تدرّب في آخر الليل، ثم اختم بالساونا والبخار والجاكوزي قبل عودتك إلى البيت — وما من موعد إغلاق يستعجلك.' }
+        copy: 'أكثر أوقات اليوم حيوية، مع حضور واسع للأعضاء وتواجد المدربين خلال ساعات الإشراف المحددة.' },
+      { from: 20, to: 23, label: 'المساء المتأخر',
+        copy: 'تدريب في وقت متأخر، مع إمكانية استخدام الساونا وغرفة البخار والجاكوزي قبل مغادرة النادي.' }
     ] : [
       { from: 0,  to: 4,  label: 'The night shift',  copy: 'Quiet floor, every rack free, the whole cardio centre to yourself. Night-shift workers and night owls train here — and reception is still staffed.' },
       { from: 5,  to: 7,  label: 'First light',      copy: 'In before sunrise, out before work. The sauna is already hot and the floor is calm.' },
@@ -338,16 +338,45 @@
     var hourLabel = document.getElementById('hour-label');
     var hourCopy  = document.getElementById('hour-copy');
     var trainerChip = document.getElementById('hour-trainer');
+
+    /* Published trainer supervision hours, by Bahrain weekday. The gym itself
+       is open 24h — these are supervision windows only, so the "trainer on the
+       floor" chip must not claim cover outside them. Ranges are [from, to). */
+    var SUPERVISION = {
+      0: [[6, 11], [16, 23]], 1: [[6, 11], [16, 23]], 2: [[6, 11], [16, 23]],
+      3: [[6, 11], [16, 23]], 4: [[6, 11], [16, 23]],
+      5: [[7, 11], [16, 22]],            // Friday
+      6: [[8, 12], [16, 23]]             // Saturday
+    };
+    var WEEKDAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    function bahrainWeekday() {
+      var name = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Bahrain', weekday: 'short'
+      }).format(new Date());
+      var i = WEEKDAY_INDEX[name];
+      return typeof i === 'number' ? i : 0;
+    }
+    function trainerOnFloor(h) {
+      var windows = SUPERVISION[bahrainWeekday()] || [];
+      for (var i = 0; i < windows.length; i++) {
+        if (h >= windows[i][0] && h < windows[i][1]) return true;
+      }
+      return false;
+    }
+
     function setHour(h) {
       h = Math.max(0, Math.min(23, h | 0));
       var slot = HOURS.filter(function (s) { return h >= s.from && h <= s.to; })[0] || HOURS[0];
       hourTime.textContent = (h < 10 ? '0' + h : h) + ':00';
       hourLabel.textContent = slot.label;
       hourCopy.textContent = slot.copy;
-      // Trainers are on the floor 24 hours (confirmed by the gym, 4 Aug 2026),
-      // so the chip never hides. Kept as an element rather than deleted: it is
-      // the point of the slider that whatever hour you drag to, someone is there.
-      if (trainerChip) trainerChip.style.display = '';
+      // Arabic copy deck (Aug 2026) requires the trainer chip to show only
+      // during the published supervision hours, while the gym stays open 24h.
+      // English still claims trainers around the clock (4 Aug 2026 ruling), so
+      // it keeps the always-on chip until the two positions are reconciled.
+      if (trainerChip) {
+        trainerChip.style.display = (!AR || trainerOnFloor(h)) ? '' : 'none';
+      }
       hourSlider.value = h;
       hourSlider.style.setProperty('--fill', (h / 23) * 100 + '%');
     }
@@ -382,11 +411,11 @@
       if (pdNote) {
         if (pdState.rate === 'loyal' && p.loyal === null) {
           pdNote.textContent = AR
-            ? 'سعر التجديد المخفّض يبدأ من باقة الثلاثة أشهر — المعروض هو السعر القياسي.'
+            ? 'سعر التجديد المخفض متاح للباقات من ثلاثة أشهر فأكثر — المعروض هو السعر القياسي.'
             : 'The loyalty rate starts from 3-month plans — showing the standard rate.';
         } else if (pdState.rate === 'loyal') {
           pdNote.textContent = AR
-            ? 'سعر التجديد المخفّض: ' + price + ' د.ب عند التجديد في الموعد.'
+            ? 'سعر التجديد المخفض: ' + price + ' د.ب عند التجديد في الموعد.'
             : 'Loyalty rate: ' + price + ' BHD when you renew on time.';
         } else {
           pdNote.textContent = AR
