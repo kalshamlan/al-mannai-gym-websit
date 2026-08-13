@@ -382,11 +382,11 @@
       if (pdNote) {
         if (pdState.rate === 'loyal' && p.loyal === null) {
           pdNote.textContent = AR
-            ? 'سعر الوفاء يبدأ من باقة الثلاثة أشهر — المعروض هو السعر القياسي.'
+            ? 'سعر التجديد المخفّض يبدأ من باقة الثلاثة أشهر — المعروض هو السعر القياسي.'
             : 'The loyalty rate starts from 3-month plans — showing the standard rate.';
         } else if (pdState.rate === 'loyal') {
           pdNote.textContent = AR
-            ? 'سعر الوفاء: ' + price + ' د.ب عند التجديد في الموعد.'
+            ? 'سعر التجديد المخفّض: ' + price + ' د.ب عند التجديد في الموعد.'
             : 'Loyalty rate: ' + price + ' BHD when you renew on time.';
         } else {
           pdNote.textContent = AR
