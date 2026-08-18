@@ -115,10 +115,36 @@ img { max-width: 100%; }
   border-bottom: 1px solid #1E1E20;
 }
 .mnavlink:hover { color: #F2F2F0; }
+/* Language toggle: lives in the bar on mobile, so switching language never
+   costs a tap on the burger. The desktop nav carries its own copy, so this
+   one is hidden above the breakpoint. `margin-inline-start:auto` eats the
+   bar's free space, which parks it against the burger in LTR *and* in RTL
+   without a direction-specific rule. */
+.lang-toggle {
+  display: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: #F2F2F0;
+  border: 1px solid #2A2A2B;
+  border-radius: 3px;
+  height: 46px;
+  padding: 0 15px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+  white-space: nowrap;
+  line-height: 1;
+}
+.lang-toggle:hover,
+.lang-toggle:focus-visible { border-color: #E4121B; color: #F2F2F0; }
 @media (max-width: 899px) {
   .nav-desktop { display: none; }
   .nav-burger { display: flex; }
   .site-header.menu-open .nav-mobile { display: flex; }
+  .lang-toggle { display: inline-flex; }
+  .site-header .bar { gap: 10px; }
 }
 
 /* ── Footer links ─────────────────────────────────────────── */
