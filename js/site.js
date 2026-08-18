@@ -342,14 +342,13 @@
     /* Published trainer supervision hours, by Bahrain weekday. The gym itself
        is open 24/7 — these are supervision windows only, so the "trainer on the
        floor" chip must not claim cover outside them. Ranges are [from, to).
-       Ahmed, 17 Aug 2026: trainers are on the floor at ANY hour Saturday
-       through Thursday; only Friday has set windows. This also reconciles the
-       EN/AR split noted below — both decks now describe the same cover. */
+       Ahmed, 18 Aug 2026: trainers are on the floor at ANY hour, EVERY day —
+       Friday included. There are no supervision windows left, so the chip is
+       always on; the table is kept because a window may come back, and this
+       also reconciles the EN/AR split noted below. */
     var SUPERVISION = {
-      0: [[0, 24]], 1: [[0, 24]], 2: [[0, 24]],
-      3: [[0, 24]], 4: [[0, 24]],
-      5: [[7, 11], [16, 22]],            // Friday
-      6: [[0, 24]]                       // Saturday
+      0: [[0, 24]], 1: [[0, 24]], 2: [[0, 24]], 3: [[0, 24]],
+      4: [[0, 24]], 5: [[0, 24]], 6: [[0, 24]]
     };
     var WEEKDAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
     function bahrainWeekday() {
