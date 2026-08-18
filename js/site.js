@@ -101,8 +101,8 @@
               arNote: 'سعر التجديد في الموعد: 192.5 د.ب.' },
     'easy': { name: 'Easy Pay · 1 year', ar: 'الدفع الميسر',
               price: '264',
-              note: 'Four monthly instalments of 66 BHD, with three days’ grace on each.',
-              arNote: 'أربعة أقساط شهرية بقيمة 66 د.ب لكل قسط، بإجمالي 264 د.ب، مع مهلة ثلاثة أيام لكل قسط.' },
+              note: 'Four monthly instalments of 66 BHD, 264 BHD in total.',
+              arNote: 'أربعة أقساط شهرية بقيمة 66 د.ب لكل قسط، بإجمالي 264 د.ب.' },
     'plat': { name: 'Platinum · 1 year', ar: 'بلاتينيوم',
               price: '330',
               note: 'A free guest on every visit, plus two 1-month memberships to gift.',
@@ -323,7 +323,7 @@
       { from: 12, to: 15, label: 'منتصف اليوم',
         copy: 'فترة أهدأ تناسب التدريب خلال استراحة العمل، مع توفر الأجهزة وجناح الاستشفاء من دون ازدحام.' },
       { from: 16, to: 19, label: 'وقت الذروة',
-        copy: 'أكثر أوقات اليوم حيوية، مع حضور واسع للأعضاء وتواجد المدربين خلال ساعات الإشراف المحددة.' },
+        copy: 'أكثر أوقات اليوم حيوية، مع حضور واسع للأعضاء وتواجد المدربين في الصالة.' },
       { from: 20, to: 23, label: 'المساء المتأخر',
         copy: 'تدريب في وقت متأخر، مع إمكانية استخدام الساونا وغرفة البخار والجاكوزي قبل مغادرة النادي.' }
     ] : [
@@ -340,13 +340,16 @@
     var trainerChip = document.getElementById('hour-trainer');
 
     /* Published trainer supervision hours, by Bahrain weekday. The gym itself
-       is open 24h — these are supervision windows only, so the "trainer on the
-       floor" chip must not claim cover outside them. Ranges are [from, to). */
+       is open 24/7 — these are supervision windows only, so the "trainer on the
+       floor" chip must not claim cover outside them. Ranges are [from, to).
+       Ahmed, 17 Aug 2026: trainers are on the floor at ANY hour Saturday
+       through Thursday; only Friday has set windows. This also reconciles the
+       EN/AR split noted below — both decks now describe the same cover. */
     var SUPERVISION = {
-      0: [[6, 11], [16, 23]], 1: [[6, 11], [16, 23]], 2: [[6, 11], [16, 23]],
-      3: [[6, 11], [16, 23]], 4: [[6, 11], [16, 23]],
+      0: [[0, 24]], 1: [[0, 24]], 2: [[0, 24]],
+      3: [[0, 24]], 4: [[0, 24]],
       5: [[7, 11], [16, 22]],            // Friday
-      6: [[8, 12], [16, 23]]             // Saturday
+      6: [[0, 24]]                       // Saturday
     };
     var WEEKDAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
     function bahrainWeekday() {
