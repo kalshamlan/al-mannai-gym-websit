@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Free Trial — Al Mannai Gym</title>
-<meta name="description" content="A free trial session at Al Mannai Gym, a 24/7 men's gym at Al Alawi Mall, Nuwaidrat. The full floor, then the sauna, steam room and jacuzzi. No card, no commitment.">
-<!-- Campaign landing page (Meta free-trial campaign, version B). DRAFT — not linked
-     from the site and not deployed. No tracking until the privacy policy is amended
-     (clauses 11.1 / 11.5) and Ahmed approves. Hero photo: a select from the
-     14 Oct 2026 shoot goes in assets/photography/campaign/hero.jpg. -->
+<meta name="description" content="A free trial at Al Mannai Gym, a 24/7 men's gym at Al Alawi Mall, Nuwaidrat. The full floor, a separate cardio centre, then the sauna, steam room and jacuzzi. No card, no commitment.">
+<!-- Campaign sales page (Meta free-trial campaign, version B). DRAFT — not linked
+     and not deployed. No tracking until the privacy policy is amended and Ahmed
+     approves. Built by Marketing/free-trial-campaign/lp/build_lp.py — edit there.
+     Plans and prices: production Gym OS, active app-sellable plans, 18 Oct 2026.
+     Photos: the 14 Oct 2026 shoot (real, no stock, no AI). -->
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/png" href="assets/logo/AMG-logo-chrome.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,11 +19,56 @@
 <style>
   .lp-proof { display:flex; flex-wrap:wrap; gap:clamp(10px,1.6vw,18px); }
   .lp-proof div { flex:1 1 150px; border:1px solid #232324; background:#121213; border-radius:5px; padding:16px 18px; }
-  .lp-proof b { display:block; font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(22px,2.6vw,30px); line-height:1; text-transform:uppercase; color:#F2F2F0; }
-  .lp-proof span { display:block; margin-top:8px; font-family:'Barlow',sans-serif; font-size:15px; line-height:1.4; color:#8A8A87; }
+  .lp-proof b { display:block; font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:clamp(22px,2.6vw,30px); line-height:var(--lp-display-lh); text-transform:var(--lp-upper); color:#F2F2F0; }
+  .lp-proof div > span { display:block; margin-top:8px; font-size:15px; line-height:1.5; color:#8A8A87; }
   .lp-step { display:flex; gap:16px; }
-  .lp-step i { font-style:normal; font-family:'Anton',sans-serif; font-size:20px; color:#E4121B; line-height:1; flex:0 0 auto; }
-  .lp-step p { margin:0; font-family:'Barlow',sans-serif; font-size:clamp(16px,1.8vw,19px); line-height:1.55; color:#C8C8C5; }
+  .lp-step i { font-style:normal; font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:20px; color:#E4121B; line-height:1.3; flex:0 0 auto; }
+  .lp-step p { margin:0; font-size:clamp(16px,1.8vw,19px); line-height:1.6; color:#C8C8C5; }
+  .lp-sec { padding-top:clamp(56px,8vw,110px); }
+  .lp-head { display:flex; flex-direction:column; gap:14px; margin-bottom:clamp(24px,3.4vw,40px); }
+  .lp-h2 { margin:0; font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:clamp(28px,4vw,48px); line-height:var(--lp-display-lh); text-transform:var(--lp-upper); max-width:20ch; }
+  .lp-lead { margin:0; font-size:clamp(16px,1.9vw,20px); line-height:1.6; color:#C8C8C5; max-width:60ch; }
+  .lp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:clamp(12px,1.8vw,20px); }
+  .lp-card { border:1px solid #232324; background:#121213; border-radius:5px; padding:clamp(20px,2.6vw,28px); display:flex; flex-direction:column; gap:10px; }
+  .lp-card i { font-style:normal; font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:18px; color:#E4121B; }
+  .lp-card b { font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:clamp(20px,2.2vw,26px); line-height:var(--lp-display-lh); text-transform:var(--lp-upper); color:#F2F2F0; }
+  .lp-card p { margin:0; font-size:16px; line-height:1.6; color:#A9A9A6; }
+  .lp-gallery { display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(8px,1.2vw,14px); }
+  @media (min-width:900px) { .lp-gallery { grid-template-columns:repeat(3,1fr); } }
+  .lp-tile { position:relative; margin:0; aspect-ratio:1/1; overflow:hidden; border-radius:5px; background:#121213; }
+  .lp-tile img { width:100%; height:100%; object-fit:cover; display:block; }
+  .lp-tile figcaption { position:absolute; inset:auto 0 0 0; padding:40px 14px 12px; background:linear-gradient(180deg,rgba(11,11,12,0) 0%,rgba(11,11,12,0.92) 70%); display:flex; flex-direction:column; gap:3px; }
+  .lp-tile b { font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:clamp(15px,1.8vw,20px); line-height:var(--lp-display-lh); text-transform:var(--lp-upper); color:#F2F2F0; }
+  .lp-tile figcaption > span { font-size:13px; line-height:1.4; color:#B9B9B6; }
+  .lp-plans { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:clamp(12px,1.8vw,20px); }
+  .lp-plan { border:1px solid #232324; background:#121213; border-radius:5px; padding:clamp(20px,2.6vw,28px); display:flex; flex-direction:column; gap:8px; }
+  .lp-plan-name { display:flex; flex-wrap:wrap; align-items:center; gap:10px; font-family:var(--lp-label); font-weight:600; font-size:var(--lp-label-size); letter-spacing:var(--lp-label-ls); text-transform:var(--lp-upper); color:#F2F2F0; }
+  .lp-badge { font-size:11px; letter-spacing:0.14em; border:1px solid #E4121B; color:#F2F2F0; border-radius:3px; padding:3px 8px; }
+  .lp-plan-price { font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:clamp(34px,4vw,46px); line-height:1.05; color:#F2F2F0; }
+  .lp-plan-price small { font-size:0.42em; color:#B9B9B6; }
+  .lp-plan-sub { font-size:15px; line-height:1.5; color:#A9A9A6; }
+  .lp-plan-perk { margin:6px 0 0; font-size:15px; line-height:1.55; color:#C8C8C5; border-top:1px solid #232324; padding-top:12px; }
+  .lp-plan-small { margin:0; font-size:14px; color:#8A8A87; }
+  .lp-note { margin:18px 0 0; font-size:15px; color:#8A8A87; }
+  .lp-rating { border:1px solid #232324; background:#121213; border-radius:5px; padding:clamp(28px,4vw,48px); display:flex; flex-wrap:wrap; gap:clamp(18px,3vw,36px); align-items:center; justify-content:space-between; }
+  .lp-rating b { display:block; font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:clamp(44px,6vw,72px); line-height:1.1; text-transform:var(--lp-upper); color:#F2F2F0; }
+  .lp-rating div > span { display:block; margin-top:8px; font-size:17px; color:#A9A9A6; }
+  .lp-faq { border-bottom:1px solid #232324; padding:18px 0; }
+  .lp-faq summary { cursor:pointer; font-weight:700; font-size:clamp(17px,1.9vw,20px); line-height:1.4; color:#F2F2F0; list-style:none; display:flex; justify-content:space-between; gap:16px; }
+  .lp-faq summary::-webkit-details-marker { display:none; }
+  .lp-faq summary::after { content:"+"; color:#E4121B; font-size:24px; line-height:1; flex:0 0 auto; }
+  .lp-faq[open] summary::after { content:"–"; }
+  .lp-faq p { margin:12px 0 0; font-size:16px; line-height:1.65; color:#A9A9A6; max-width:70ch; }
+  .lp-final { text-align:center; display:flex; flex-direction:column; align-items:center; gap:18px; padding:clamp(48px,7vw,90px) 0; }
+  .lp-sticky { display:none; }
+  @media (max-width:760px) {
+    body { padding-bottom:78px; }
+    .lp-sticky { display:flex; gap:10px; position:fixed; left:0; right:0; bottom:0; z-index:50; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); background:rgba(11,11,12,0.96); border-top:1px solid #232324; }
+    .lp-sticky .btn { flex:1; justify-content:center; text-align:center; padding:15px 12px; font-size:15px; }
+  }
+  :root { --lp-display:'Anton',sans-serif; --lp-display-w:400; --lp-display-lh:1.02;
+          --lp-upper:uppercase; --lp-label:'Oswald',sans-serif;
+          --lp-label-size:14px; --lp-label-ls:0.16em; }
 </style>
 </head>
 <body data-page="free-trial">
@@ -46,12 +92,12 @@
   <div style="position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,11,12,0.90) 0%,rgba(11,11,12,0.70) 40%,rgba(11,11,12,0.55) 62%,rgba(11,11,12,0.95) 92%,#0B0B0C 100%)"></div>
   <div class="shell" style="position:relative; padding-top:clamp(56px,8vw,120px); padding-bottom:clamp(44px,6vw,80px); display:flex; flex-direction:column; gap:clamp(18px,2.4vw,28px)">
     <div class="eyebrow">Free trial · First visit</div>
-    <h1 style="margin:0; font-family:'Anton',sans-serif; font-size:clamp(36px, 6vw, 76px); line-height:1.0; letter-spacing:0.004em; text-transform:uppercase; max-width:14ch">Book your free trial now</h1>
+    <h1 style="margin:0; font-family:var(--lp-display); font-weight:var(--lp-display-w); font-size:clamp(36px, 6vw, 76px); line-height:1.0; text-transform:var(--lp-upper); max-width:14ch">Book your free trial now</h1>
     <div class="kick" style="width:clamp(90px,12vw,170px); height:clamp(5px,0.7vw,8px)"></div>
-    <p style="margin:0; font-family:'Barlow',sans-serif; font-size:clamp(17px,2vw,24px); line-height:1.5; color:#D8D8D5; max-width:52ch">A 24/7 men's gym at Al Alawi Mall, Nuwaidrat. Train on the full floor, then use the sauna, steam room and jacuzzi. No card, no commitment.</p>
+    <p style="margin:0; font-size:clamp(17px,2vw,23px); line-height:1.6; color:#D8D8D5; max-width:52ch">A 24/7 men's gym at Al Alawi Mall, Nuwaidrat. Train on the full floor, then use the sauna, steam room and jacuzzi. No card, no commitment.</p>
     <div style="display:flex; flex-wrap:wrap; gap:12px">
-      <a class="btn btn-red" href="#book" style="font-size:14px; padding:18px 26px">Book my free trial</a>
-      <a class="btn" href="https://wa.me/97333335681" target="_blank" rel="noopener" data-wa style="font-size:14px; padding:18px 26px; border:1px solid #3A3A3C">Message us on WhatsApp</a>
+      <a class="btn btn-red" href="#book" style="font-size:15px; padding:17px 26px">Book my free trial</a>
+      <a class="btn" href="https://wa.me/97333335681" target="_blank" rel="noopener" data-wa style="font-size:15px; padding:17px 26px; border:1px solid #3A3A3C">Message us on WhatsApp</a>
     </div>
   </div>
 </section>
@@ -65,9 +111,9 @@
   </div>
 </section>
 
-<section id="book" class="shell" style="padding-top:clamp(40px,6vw,80px); padding-bottom:clamp(56px,8vw,110px); display:flex; flex-wrap:wrap; gap:clamp(24px,4vw,50px); align-items:flex-start">
+<section id="book" class="shell lp-sec" style="display:flex; flex-wrap:wrap; gap:clamp(24px,4vw,50px); align-items:flex-start">
   <form id="lp-form" data-card style="flex:1 1 360px; border:1px solid #232324; background:#121213; border-radius:5px; padding:clamp(24px,3.4vw,40px); display:flex; flex-direction:column; gap:20px">
-    <div style="font-family:'Oswald',sans-serif; font-weight:600; font-size:15px; letter-spacing:0.2em; text-transform:uppercase">Book your free trial</div>
+    <div style="font-family:var(--lp-label); font-weight:700; font-size:var(--lp-label-size); letter-spacing:var(--lp-label-ls); text-transform:var(--lp-upper)">Book your free trial</div>
     <label class="f-label">
       <span class="f-caption">Your name</span>
       <input class="field" type="text" name="name" autocomplete="name" placeholder="First and last name" required>
@@ -86,22 +132,134 @@
         <option>Late night</option>
       </select>
     </label>
-    <button class="btn btn-red" type="submit" style="font-size:14px; padding:19px; width:100%">Book my free trial</button>
-    <div style="font-family:'Barlow',sans-serif; font-size:15px; line-height:1.6; color:#8A8A87">Reception confirms your session on WhatsApp, usually within the hour, day or night.</div>
+    <button class="btn btn-red" type="submit" style="font-size:15px; padding:18px; width:100%">Book my free trial</button>
+    <div style="font-size:15px; line-height:1.6; color:#8A8A87">Reception confirms your trial on WhatsApp, usually within the hour, day or night.</div>
   </form>
 
   <div style="flex:1 1 320px; display:flex; flex-direction:column; gap:clamp(20px,2.8vw,32px)">
-    <h2 style="margin:0; font-family:'Anton',sans-serif; font-size:clamp(23px, 2.88vw, 35px); line-height:1.05; letter-spacing:0.006em; text-transform:uppercase">How it works</h2>
+    <h2 class="lp-h2" style="font-size:clamp(23px, 2.88vw, 35px)">How it works</h2>
     <div style="display:flex; flex-direction:column; gap:16px">
       <div class="lp-step"><i>01</i><p>Leave your name and number. Reception confirms a time with you on WhatsApp.</p></div>
       <div class="lp-step"><i>02</i><p>Come at the hour that suits you, day or night. Bring your CPR or passport.</p></div>
       <div class="lp-step"><i>03</i><p>Train on the floor, then use the recovery suite. Join at reception only if you want to.</p></div>
     </div>
-    <div style="border:1px solid #232324; background:#121213; border-radius:5px; padding:clamp(20px,2.6vw,28px); display:flex; flex-direction:column; gap:10px">
-      <div style="font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:0.28em; text-transform:uppercase; color:#E4121B">After your trial</div>
-      <div style="font-family:'Barlow',sans-serif; font-size:17px; line-height:1.6; color:#C8C8C5">Memberships from 38.500 BD a month. No joining fee.</div>
-    </div>
-    <div style="font-family:'Barlow',sans-serif; font-size:16px; line-height:1.6; color:#8A8A87">Men only, 15 and over. One free session per person, for first-time visitors. Sports clothing and closed athletic shoes are required on the training floor.</div>
+    <div style="font-size:16px; line-height:1.6; color:#8A8A87">Men only, 15 and over. One free trial per person, for first-time visitors. Sports clothing and closed athletic shoes are required on the training floor.</div>
+  </div>
+</section>
+
+<section id="why" class="shell lp-sec">
+  <div class="lp-head">
+    <div class="eyebrow">Why train here</div>
+    <h2 class="lp-h2">Everything in one membership</h2>
+    <p class="lp-lead">Three spaces under one roof: the strength floor, a separate cardio centre and a recovery suite most gyms charge extra for.</p>
+  </div>
+  <div class="lp-grid">
+      <div class="lp-card"><i>01</i><b>Open 24/7</b><p>Every day, all year. Train before work, after a night shift or at 3 a.m.</p></div>
+      <div class="lp-card"><i>02</i><b>A trainer at every hour</b><p>Someone is always on the floor for a form check, a programme or how a machine adjusts. It's included.</p></div>
+      <div class="lp-card"><i>03</i><b>Recovery suite included</b><p>Sauna, steam room and a hot and cold jacuzzi, with no add-on fee.</p></div>
+      <div class="lp-card"><i>04</i><b>A separate cardio centre</b><p>Treadmills, ellipticals, bikes, rowers, a ski erg and a stairmaster, in a space of their own.</p></div>
+      <div class="lp-card"><i>05</i><b>Equipped properly</b><p>A full cable system, three sets of every dumbbell, squat racks and fourteen benches.</p></div>
+      <div class="lp-card"><i>06</i><b>No joining fee</b><p>You pay for your plan and nothing else. Parking is on site at Al Alawi Mall.</p></div>
+  </div>
+</section>
+
+<section id="inside" class="shell lp-sec">
+  <div class="lp-head">
+    <div class="eyebrow">Inside the gym</div>
+    <h2 class="lp-h2">See it before you come</h2>
+    <p class="lp-lead">Photographed at Al Mannai Gym in October 2026.</p>
+  </div>
+  <div class="lp-gallery">
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-floor.jpg" alt="Strength floor" width="1400" height="787" loading="lazy" decoding="async"><figcaption><b>Strength floor</b><span>Plate-loaded and selectorised machines</span></figcaption></figure>
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-machines.jpg" alt="Plate-loaded machines" width="1400" height="937" loading="lazy" decoding="async"><figcaption><b>Plate-loaded machines</b><span>Chest, back, shoulders and legs</span></figcaption></figure>
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-dumbbells.jpg" alt="Dumbbells" width="787" height="1400" loading="lazy" decoding="async"><figcaption><b>Dumbbells</b><span>Three sets of every weight</span></figcaption></figure>
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-cardio.jpg" alt="Cardio centre" width="1400" height="787" loading="lazy" decoding="async"><figcaption><b>Cardio centre</b><span>Its own floor, not a corridor</span></figcaption></figure>
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-bikes.jpg" alt="Cardio bikes" width="992" height="1400" loading="lazy" decoding="async"><figcaption><b>Cardio bikes</b><span>Beside the treadmill row</span></figcaption></figure>
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-jacuzzi.jpg" alt="Hot and cold jacuzzi" width="937" height="1400" loading="lazy" decoding="async"><figcaption><b>Hot and cold jacuzzi</b><span>Part of the recovery suite</span></figcaption></figure>
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-sauna-steam.jpg" alt="Sauna and steam room" width="788" height="1400" loading="lazy" decoding="async"><figcaption><b>Sauna and steam room</b><span>After training or on a rest day</span></figcaption></figure>
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-lockers.jpg" alt="Lockers" width="1400" height="937" loading="lazy" decoding="async"><figcaption><b>Lockers</b><span>Keypad lockers in the changing rooms</span></figcaption></figure>
+      <figure class="lp-tile"><img src="assets/photography/campaign/gallery-vanity.jpg" alt="Changing rooms" width="1400" height="788" loading="lazy" decoding="async"><figcaption><b>Changing rooms</b><span>Showers and a vanity area</span></figcaption></figure>
+  </div>
+</section>
+
+<section id="plans" class="shell lp-sec">
+  <div class="lp-head">
+    <div class="eyebrow">Plans and prices</div>
+    <h2 class="lp-h2">After your trial</h2>
+    <p class="lp-lead">Join at reception only if you want to. Every plan opens the whole gym: the strength floor, the cardio centre and the recovery suite.</p>
+  </div>
+  <div class="lp-plans">
+      <div class="lp-plan">
+        <div class="lp-plan-name"><span>Monthly membership</span></div>
+        <div class="lp-plan-price">38.500 <small>BD</small></div>
+        <div class="lp-plan-sub">a month</div>
+        
+      </div>
+      <div class="lp-plan">
+        <div class="lp-plan-name"><span>3-month membership</span></div>
+        <div class="lp-plan-price">99.000 <small>BD</small></div>
+        <div class="lp-plan-sub">for 3 months · works out at 33.0 BD a month</div>
+        <p class="lp-plan-perk">Renew on time and pay 77 BD instead of 99.</p>
+      </div>
+      <div class="lp-plan">
+        <div class="lp-plan-name"><span>6-month membership</span></div>
+        <div class="lp-plan-price">154.000 <small>BD</small></div>
+        <div class="lp-plan-sub">for 6 months · works out at 25.7 BD a month</div>
+        <p class="lp-plan-perk">Renew on time and pay 132 BD instead of 154.</p>
+      </div>
+      <div class="lp-plan">
+        <div class="lp-plan-name"><span>1-year membership</span></div>
+        <div class="lp-plan-price">220.000 <small>BD</small></div>
+        <div class="lp-plan-sub">for 12 months · works out at 18.3 BD a month</div>
+        <p class="lp-plan-perk">Renew on time and pay 192.5 BD instead of 220.</p><p class="lp-plan-small">Freeze for up to 30 days</p>
+      </div>
+      <div class="lp-plan">
+        <div class="lp-plan-name"><span>1-year easy pay</span><span class="lp-badge">Easy Pay</span></div>
+        <div class="lp-plan-price">264.000 <small>BD</small></div>
+        <div class="lp-plan-sub">for 12 months, in 4 payments of 66.000 BD</div>
+        <p class="lp-plan-perk">Pay in four. Instalments must be paid on time — a missed deadline cancels the agreement, and the account is credited two months of membership for each instalment already paid.</p><p class="lp-plan-small">Freeze for up to 30 days</p>
+      </div>
+      <div class="lp-plan">
+        <div class="lp-plan-name"><span>1-year platinum</span><span class="lp-badge">Platinum</span></div>
+        <div class="lp-plan-price">330.000 <small>BD</small></div>
+        <div class="lp-plan-sub">for 12 months · works out at 27.5 BD a month</div>
+        <p class="lp-plan-perk">Bring a guest free of charge on any visit, for the whole year. Plus two complimentary one-month memberships to gift to people who have never been members here.</p><p class="lp-plan-small">Freeze for up to 90 days</p>
+      </div>
+  </div>
+  <p class="lp-note">Prices include VAT. No joining fee.</p>
+</section>
+
+<section class="shell lp-sec">
+  <div class="lp-rating">
+    <div><b>4.8 on Google</b><span>Rated by our members. Come and see why.</span></div>
+    <a class="btn btn-red" href="#book" style="font-size:15px; padding:17px 26px">Book my free trial</a>
+  </div>
+</section>
+
+<section id="faq" class="shell lp-sec">
+  <div class="lp-head">
+    <div class="eyebrow">Questions</div>
+    <h2 class="lp-h2">Before you come</h2>
+  </div>
+  <div>
+      <details class="lp-faq"><summary>Is the trial really free?</summary><p>Yes. Your first visit is free, once per person, for first-time visitors. No card and no commitment.</p></details>
+      <details class="lp-faq"><summary>What should I bring?</summary><p>Your CPR or passport. Wear sports clothing and closed athletic shoes on the training floor.</p></details>
+      <details class="lp-faq"><summary>When can I come?</summary><p>Any time. We are open 24/7, every day, and reception confirms your time on WhatsApp.</p></details>
+      <details class="lp-faq"><summary>Can I use the sauna and jacuzzi on my trial?</summary><p>Yes. Train on the floor, then use the recovery suite: the sauna, the steam room and the hot and cold jacuzzi.</p></details>
+      <details class="lp-faq"><summary>Who can join?</summary><p>Men aged 15 and over.</p></details>
+      <details class="lp-faq"><summary>Is there parking?</summary><p>Yes, on site at Al Alawi Mall, Nuwaidrat.</p></details>
+      <details class="lp-faq"><summary>What happens after the trial?</summary><p>Nothing, unless you want to join. If you do, reception signs you up on any of the plans above. There is no joining fee.</p></details>
+      <details class="lp-faq"><summary>Is there a trainer to help me?</summary><p>Yes. A trainer is on the floor at every hour, day or night, and it's included.</p></details>
+  </div>
+</section>
+
+<section class="shell lp-final">
+  <div class="kick" style="width:clamp(90px,12vw,170px); height:clamp(5px,0.7vw,8px)"></div>
+  <h2 class="lp-h2" style="max-width:none">Book your free trial now</h2>
+  <p class="lp-lead">Open 24/7 at Al Alawi Mall, Nuwaidrat. Men 15 and over.</p>
+  <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center">
+    <a class="btn btn-red" href="#book" style="font-size:15px; padding:17px 26px">Book my free trial</a>
+    <a class="btn" href="https://wa.me/97333335681" target="_blank" rel="noopener" data-wa style="font-size:15px; padding:17px 26px; border:1px solid #3A3A3C">Message us on WhatsApp</a>
   </div>
 </section>
 </main>
@@ -110,15 +268,20 @@
   <div class="shell" style="padding-top:clamp(36px,5vw,60px); padding-bottom:clamp(30px,4vw,44px); display:flex; flex-wrap:wrap; gap:clamp(24px,4vw,50px); justify-content:space-between">
     <div style="display:flex; flex-direction:column; gap:12px">
       <img src="assets/logo/AMG-logo-chrome.svg" alt="Al Mannai Gym" style="width:clamp(140px,16vw,190px); height:auto; display:block">
-      <div style="font-family:'Barlow',sans-serif; font-size:16px; line-height:1.6; color:#8A8A87">Al Alawi Mall, Building 2561<br>Avenue 66, Nuwaidrat, Sanad, Bahrain</div>
+      <div style="font-size:16px; line-height:1.7; color:#8A8A87">Al Alawi Mall, Building 2561<br>Avenue 66, Nuwaidrat, Sanad, Bahrain</div>
     </div>
     <div style="display:flex; flex-direction:column; gap:10px">
-      <div class="eyebrow" style="font-size:11px; letter-spacing:0.28em">Open 24/7, every day</div>
-      <div style="font-family:'Barlow',sans-serif; font-weight:700; font-size:clamp(19px,2.2vw,24px); color:#F2F2F0">+973 3333 5681</div>
-      <a href="privacy.html" style="font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#5E5E5C">Privacy policy</a>
+      <div class="eyebrow" style="font-size:12px">Open 24/7, every day</div>
+      <div dir="ltr" style="font-weight:700; font-size:clamp(19px,2.2vw,24px); color:#F2F2F0">+973 3333 5681</div>
+      <a href="privacy.html" style="font-size:13px; color:#5E5E5C">Privacy policy</a>
     </div>
   </div>
 </footer>
+
+<div class="lp-sticky">
+  <a class="btn btn-red" href="#book">Book my free trial</a>
+  <a class="btn" href="https://wa.me/97333335681" target="_blank" rel="noopener" data-wa style="border:1px solid #3A3A3C; flex:0 0 auto">WhatsApp</a>
+</div>
 
 </div>
 <script>
@@ -134,16 +297,16 @@
     e.preventDefault();
     var v = function (n) { return (form.elements[n].value || '').trim(); };
     var text = [
-      'Hello, I’d like to book my free trial session.',
-      'Name: ' + v('name'),
-      'Mobile: ' + v('phone'),
-      'Time: ' + v('time'),
-      'Ref: ' + tag
+      "Hello, I'd like to book my free trial.",
+      "Name: " + v('name'),
+      "Mobile: " + v('phone'),
+      "Time: " + v('time'),
+      "Ref: " + tag
     ].join('\n');
     window.open(WA + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
   });
   document.querySelectorAll('[data-wa]').forEach(function (a) {
-    a.href = WA + '?text=' + encodeURIComponent('Hello, I’d like to book my free trial session.\nRef: ' + tag);
+    a.href = WA + '?text=' + encodeURIComponent("Hello, I'd like to book my free trial." + '\n' + "Ref: " + tag);
   });
 })();
 </script>
