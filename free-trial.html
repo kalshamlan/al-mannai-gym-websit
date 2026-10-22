@@ -23,7 +23,10 @@
   .lp-proof div > span { display:block; margin-top:8px; font-size:15px; line-height:1.5; color:#8A8A87; }
   .f-row { display:flex; flex-wrap:wrap; gap:12px; }
   .f-row .f-label { flex:1 1 140px; }
-  .f-hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  /* The decoy field is clipped in place, never pushed off to one side: on the
+     right-to-left page left:-9999px made the page ~10,000px wide on phones and
+     the form slid out of view (found 22 Oct 2026 on Khalid's phone). */
+  .f-hp { position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; }
   .f-notice { margin:0; font-size:14px; line-height:1.6; color:#8A8A87; }
   .f-msg { font-size:16px; line-height:1.6; padding:14px 16px; border-radius:4px; border:1px solid #2A2A2B; background:#18181A; color:#F2F2F0; }
   .f-msg[data-kind="error"] { border-color:#E4121B; }
