@@ -21,6 +21,16 @@
       "missing": [{ "type": "query", "key": "lang" }],
       "destination": "/offers-ar",
       "permanent": false
+    },
+    {
+      "source": "/book",
+      "destination": "/free-trial?utm_source=whatsapp&utm_campaign=A-whatsapp",
+      "permanent": false
+    },
+    {
+      "source": "/book-ar",
+      "destination": "/free-trial-ar?utm_source=whatsapp&utm_campaign=A-whatsapp",
+      "permanent": false
     }
   ]
 }
