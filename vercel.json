@@ -31,6 +31,18 @@
       "source": "/book-ar",
       "destination": "/free-trial-ar?utm_source=whatsapp&utm_campaign=A-whatsapp",
       "permanent": false
+    },
+    {
+      "source": "/app",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*(iPhone|iPad|iPod).*" }],
+      "destination": "https://apps.apple.com/bh/app/id6814225150",
+      "permanent": false
+    },
+    {
+      "source": "/app",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*Android.*" }],
+      "destination": "https://play.google.com/store/apps/details?id=com.almannaigym.app",
+      "permanent": false
     }
   ]
 }
