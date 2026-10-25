@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>تجربة مجانية — نادي المناعي الرياضي</title>
 <meta name="description" content="جرّب نادي المناعي الرياضي مجانًا. نادٍ للرجال في مجمع العلوي بالنويدرات، مفتوح 24/7. صالة تمارين متكاملة ومركز كارديو مستقل، وبعد التمرين ساونا وغرفة بخار وجاكوزي. دون بطاقة دفع أو التزام.">
-<!-- Campaign sales page (Meta free-trial campaign, version B). DRAFT — not linked
-     and not deployed. No tracking until the privacy policy is amended and Ahmed
-     approves. Built by Marketing/free-trial-campaign/lp/build_lp.py — edit there.
+<!-- Campaign sales page (Meta free-trial campaign, version B). Live since
+     22 Oct 2026; bookings go to Gym OS; the Meta pixel is described in the
+     privacy policy (section 11.6) with an opt-out in the footer. Built by Marketing/free-trial-campaign/lp/build_lp.py — edit there.
      Plans and prices: production Gym OS, active app-sellable plans, 18 Oct 2026.
      Photos: the 14 Oct 2026 shoot (real, no stock, no AI). -->
 <meta name="robots" content="noindex">
@@ -28,6 +28,7 @@
      the form slid out of view (found 22 Oct 2026 on Khalid's phone). */
   .f-hp { position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; }
   .f-notice { margin:0; font-size:14px; line-height:1.6; color:#8A8A87; }
+  .f-when { margin:0; font-size:15px; line-height:1.6; color:#F2F2F0; border-inline-start:2px solid #E4121B; padding-inline-start:10px; }
   .f-msg { font-size:16px; line-height:1.6; padding:14px 16px; border-radius:4px; border:1px solid #2A2A2B; background:#18181A; color:#F2F2F0; }
   .f-msg[data-kind="error"] { border-color:#E4121B; }
   #lp-form.is-booked button[type=submit] { display:none; }
@@ -144,6 +145,7 @@
         <select class="field" name="hour"></select>
       </label>
     </div>
+    <p id="lp-when" class="f-when" aria-live="polite" hidden></p>
     <label class="f-hp" aria-hidden="true">Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
     <p class="f-notice">بحجزك، توافق على أن يرسل لك نادي المناعي الرياضي تأكيد حجزك وتذكيرًا بموعدك عبر واتساب. لإيقاف هذه الرسائل في أي وقت، أرسل كلمة «إيقاف».</p>
     <button class="btn btn-red" type="submit" style="font-size:15px; padding:18px; width:100%">احجز تجربتك المجانية</button>
@@ -314,7 +316,7 @@
   var LANG = 'ar';
   var NOTICE = 'trial-wa-2026-10-19';
   var PIXEL = '1082862534580652';
-  var T = {"day_today": "اليوم", "day_tomorrow": "غدًا", "form_hour_pick": "اختر الوقت", "btn_booking": "جارٍ الحجز…", "msg_booked": "تم حجز تجربتك المجانية في {day} الساعة {time}. سيصلك تأكيد الحجز عبر واتساب خلال دقائق.", "msg_already": "لديك حجز مسبق لتجربة مجانية في {day} الساعة {time}. لتغيير الموعد، راسلنا عبر واتساب.", "msg_member": "هذا الرقم مسجّل بعضوية في نادي المناعي الرياضي، لذا لا تحتاج إلى تجربة مجانية. إذا انتهت عضويتك، راسلنا عبر واتساب وسيساعدك فريق الاستقبال على تجديدها.", "msg_received": "شكرًا لك. سيتواصل معك فريق الاستقبال عبر واتساب.", "msg_fallback": "تعذّر إتمام الحجز عبر الموقع. سيفتح واتساب ليتولى فريق الاستقبال الحجز لك.", "err_name": "يرجى إدخال اسمك.", "err_phone": "يرجى إدخال رقم جوال بحريني مكوّن من 8 أرقام.", "err_time": "يرجى اختيار يوم ووقت لم يحن موعدهما بعد.", "wa_greeting": "السلام عليكم، أرغب في حجز تجربة مجانية.", "wa_name": "الاسم:", "wa_phone": "الموبايل:", "wa_time": "الوقت:", "wa_ref": "المرجع:", "pixel_optout_done": "تم. البكسل متوقف في هذا المتصفح."};
+  var T = {"day_today": "اليوم", "day_tomorrow": "غدًا", "form_hour_pick": "اختر الوقت", "hour_midnight": "12:00 منتصف الليل", "hour_noon": "12:00 ظهرًا", "when_line": "أنت تحجز يوم {day} الساعة {time}.", "when_night": "أي في وقت متأخر من الليلة التي تبدأ مساء {prev}.", "btn_booking": "جارٍ الحجز…", "msg_booked": "تم حجز تجربتك المجانية في {day} الساعة {time}. سيصلك تأكيد الحجز عبر واتساب خلال دقائق.", "msg_already": "لديك حجز مسبق لتجربة مجانية في {day} الساعة {time}. لتغيير الموعد، راسلنا عبر واتساب.", "msg_member": "هذا الرقم مسجّل بعضوية في نادي المناعي الرياضي، لذا لا تحتاج إلى تجربة مجانية. إذا انتهت عضويتك، راسلنا عبر واتساب وسيساعدك فريق الاستقبال على تجديدها.", "msg_received": "شكرًا لك. سيتواصل معك فريق الاستقبال عبر واتساب.", "msg_fallback": "تعذّر إتمام الحجز عبر الموقع. سيفتح واتساب ليتولى فريق الاستقبال الحجز لك.", "err_name": "يرجى إدخال اسمك.", "err_phone": "يرجى إدخال رقم جوال بحريني مكوّن من 8 أرقام.", "err_time": "يرجى اختيار يوم ووقت لم يحن موعدهما بعد.", "wa_greeting": "السلام عليكم، أرغب في حجز تجربة مجانية.", "wa_name": "الاسم:", "wa_phone": "الموبايل:", "wa_time": "الوقت:", "wa_ref": "المرجع:", "pixel_optout_done": "تم. البكسل متوقف في هذا المتصفح."};
   var WA = 'https://wa.me/97333101009';
   var loaded = Date.now();
   var q = new URLSearchParams(location.search);
@@ -326,6 +328,7 @@
   var msg = document.getElementById('lp-msg');
   var btn = form.querySelector('button[type=submit]');
   var DAYS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var DAYS_EN_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var MON_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var DAYS_AR = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
   var MON_AR = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
@@ -342,7 +345,12 @@
       ? pre + DAYS_AR[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MON_AR[d.getUTCMonth()]
       : pre + DAYS_EN[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MON_EN[d.getUTCMonth()];
   }
+  // ★ 25 Oct 2026: the gym is open 24/7, so midnight is a real choice — but
+  // "12:00 AM" is easily read as midday. Midnight and noon are named outright,
+  // and the line under the selects says the choice in words.
   function hourLabel(h) {
+    if (h === 0) return T.hour_midnight;
+    if (h === 12) return T.hour_noon;
     var n = (h + 11) % 12 + 1;
     return LANG === 'ar' ? n + ':00 ' + (h < 12 ? 'صباحًا' : 'مساءً') : n + ':00 ' + (h < 12 ? 'AM' : 'PM');
   }
@@ -363,6 +371,7 @@
       o.value = String(h); o.textContent = hourLabel(h); hourSel.appendChild(o);
     }
     if (keep && hourSel.querySelector('option[value="' + keep + '"]')) hourSel.value = keep;
+    else hourSel.value = '';
   }
   function fillDays() {
     var base = gymNow(), keep = daySel.value, from = earliestSlot();
@@ -376,8 +385,31 @@
     if (keep && daySel.querySelector('option[value="' + keep + '"]')) daySel.value = keep;
     fillHours();
   }
-  daySel.addEventListener('change', fillHours);
+  // The choice said back in words. Midnight to 4 a.m. belongs to the night
+  // that started the evening before, and the line says which evening.
+  var whenEl = document.getElementById('lp-when');
+  function dayWords(value) {
+    var p = value.split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+    return LANG === 'ar'
+      ? DAYS_AR[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MON_AR[d.getUTCMonth()]
+      : DAYS_EN_FULL[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MON_EN[d.getUTCMonth()];
+  }
+  function sayWhen() {
+    if (!whenEl) return;
+    if (!daySel.value || hourSel.value === '') { whenEl.hidden = true; whenEl.textContent = ''; return; }
+    var h = +hourSel.value, p = daySel.value.split('-');
+    var line = T.when_line.replace('{day}', dayWords(daySel.value)).replace('{time}', hourLabel(h));
+    if (h < 5) {
+      var prev = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] - 1)).getUTCDay();
+      line += ' ' + T.when_night.replace('{prev}', LANG === 'ar' ? DAYS_AR[prev] : DAYS_EN_FULL[prev]);
+    }
+    whenEl.textContent = line;
+    whenEl.hidden = false;
+  }
+  daySel.addEventListener('change', function () { fillHours(); sayWhen(); });
+  hourSel.addEventListener('change', sayWhen);
   fillDays();
+  sayWhen();
 
   function say(text, kind) { msg.textContent = text; msg.setAttribute('data-kind', kind || ''); msg.hidden = false; }
   function fill(t, r) { return t.replace('{day}', r.day_text || '').replace('{time}', r.time_text || ''); }
