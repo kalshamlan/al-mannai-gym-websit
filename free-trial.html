@@ -292,7 +292,7 @@
       <a href="privacy.html" style="font-size:13px; color:#5E5E5C">Privacy policy</a>
     </div>
   </div>
-  <div class="shell"><p id="lp-pixel" class="lp-pixel">This page uses Meta's pixel to measure our ads and show our offers to visitors on Facebook and Instagram. <a href="privacy.html">Privacy policy</a> · <a href="#" data-optout>Opt out</a></p></div>
+  <div class="shell"><p id="lp-pixel" class="lp-pixel">This page uses Meta's pixel to measure our ads and show our offers to visitors on Facebook and Instagram. It also counts how many people open it. <a href="privacy.html">Privacy policy</a> · <a href="#" data-optout>Opt out</a></p></div>
 </footer>
 
 <div class="lp-sticky">
@@ -316,7 +316,7 @@
   var LANG = 'en';
   var NOTICE = 'trial-wa-2026-10-19';
   var PIXEL = '1082862534580652';
-  var T = {"day_today": "Today", "day_tomorrow": "Tomorrow", "form_hour_pick": "Choose a time", "hour_midnight": "12:00 AM (midnight)", "hour_noon": "12:00 PM (noon)", "when_line": "You are booking {day} at {time}.", "when_night": "That is late on {prev} night.", "btn_booking": "Booking…", "msg_booked": "Your free trial is booked for {day} at {time}. Your confirmation will arrive on WhatsApp within a few minutes.", "msg_already": "You already have a free trial booked for {day} at {time}. To change it, message us on WhatsApp.", "msg_member": "This number is already registered as a member of Al Mannai Gym, so you don't need a free trial. If your membership has ended, message us on WhatsApp and reception will help you renew.", "msg_received": "Thank you. Reception will contact you on WhatsApp.", "msg_fallback": "We could not book it online, so WhatsApp will open for reception to book it for you.", "err_name": "Please enter your name.", "err_phone": "Please enter a Bahrain mobile number, 8 digits.", "err_time": "Please choose a day and a time that has not passed.", "wa_greeting": "Hello, I'd like to book my free trial.", "wa_name": "Name:", "wa_phone": "Mobile:", "wa_time": "Time:", "wa_ref": "Ref:", "pixel_optout_done": "Done. The pixel is off in this browser."};
+  var T = {"day_today": "Today", "day_tomorrow": "Tomorrow", "form_hour_pick": "Choose a time", "hour_midnight": "12:00 AM (midnight)", "hour_noon": "12:00 PM (noon)", "when_line": "You are booking {day} at {time}.", "when_night": "That is late on {prev} night.", "btn_booking": "Booking…", "msg_booked": "Your free trial is booked for {day} at {time}. Your confirmation will arrive on WhatsApp within a few minutes.", "msg_already": "You already have a free trial booked for {day} at {time}. To change it, message us on WhatsApp.", "msg_member": "This number is already registered as a member of Al Mannai Gym, so you don't need a free trial. If your membership has ended, message us on WhatsApp and reception will help you renew.", "msg_received": "Thank you. Reception will contact you on WhatsApp.", "msg_fallback": "We could not book it online, so WhatsApp will open for reception to book it for you.", "err_name": "Please enter your name.", "err_phone": "Please enter a Bahrain mobile number, 8 digits.", "err_time": "Please choose a day and a time that has not passed.", "wa_greeting": "Hello, I'd like to book my free trial.", "wa_name": "Name:", "wa_phone": "Mobile:", "wa_time": "Time:", "wa_ref": "Ref:", "pixel_optout_done": "Done. The pixel and the visit count's mark are off in this browser."};
   var WA = 'https://wa.me/97333101009';
   var loaded = Date.now();
   var q = new URLSearchParams(location.search);
@@ -479,10 +479,43 @@
     if (off) off.onclick = function (ev) {
       ev.preventDefault();
       store('amg_tracking', 'no');
+      try { localStorage.removeItem('amg_visitor'); } catch (e) {}
       if (window.fbq) window.fbq('consent', 'revoke');
       note.textContent = T.pixel_optout_done;
     };
   }
+
+  // ★ 0249 · Khalid, 30 Oct 2026: count who actually opens the link Ahmed sends.
+  // The page tells Gym OS it was opened (policy v1.6 §11.6A), with a random mark
+  // kept in this browser so one person opening it five times is told from five
+  // people. The mark is never sent with a name or a number. A visitor who opted
+  // out is counted with no mark, and a browser that will not keep the mark is
+  // counted without one. Sent and forgotten: a failure shows the visitor nothing.
+  function newMark() {
+    try {
+      if (typeof crypto === 'undefined') return null;
+      if (crypto.randomUUID) return crypto.randomUUID();
+      var b = crypto.getRandomValues(new Uint8Array(16));
+      b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+      var h = Array.prototype.map.call(b, function (x) { return (x + 256).toString(16).slice(1); }).join('');
+      return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+    } catch (e) { return null; }
+  }
+  function visitMark() {
+    if (read('amg_tracking') === 'no') return null;
+    var m = read('amg_visitor');
+    if (m && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(m)) return m;
+    m = newMark();
+    if (!m) return null;
+    store('amg_visitor', m);
+    return read('amg_visitor') === m ? m : null;
+  }
+  try {
+    fetch(API + '/visit', {
+      method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ lang: LANG, source: q.get('utm_source') || '', ref: ref, visitor: visitMark() })
+    }).catch(function () {});
+  } catch (e) {}
 })();
 
 </script>

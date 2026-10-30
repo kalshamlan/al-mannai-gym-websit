@@ -292,7 +292,7 @@
       <a href="privacy-ar.html" style="font-size:13px; color:#5E5E5C">سياسة الخصوصية</a>
     </div>
   </div>
-  <div class="shell"><p id="lp-pixel" class="lp-pixel">تستخدم هذه الصفحة بكسل ميتا لقياس نتائج إعلاناتنا وعرض عروضنا للزوار على فيسبوك وإنستغرام. <a href="privacy-ar.html">سياسة الخصوصية</a> · <a href="#" data-optout>إيقاف البكسل</a></p></div>
+  <div class="shell"><p id="lp-pixel" class="lp-pixel">تستخدم هذه الصفحة بكسل ميتا لقياس نتائج إعلاناتنا وعرض عروضنا للزوار على فيسبوك وإنستغرام. كما تحصي عدد الأشخاص الذين يفتحونها. <a href="privacy-ar.html">سياسة الخصوصية</a> · <a href="#" data-optout>إيقاف البكسل</a></p></div>
 </footer>
 
 <div class="lp-sticky">
@@ -316,7 +316,7 @@
   var LANG = 'ar';
   var NOTICE = 'trial-wa-2026-10-19';
   var PIXEL = '1082862534580652';
-  var T = {"day_today": "اليوم", "day_tomorrow": "غدًا", "form_hour_pick": "اختر الوقت", "hour_midnight": "12:00 منتصف الليل", "hour_noon": "12:00 ظهرًا", "when_line": "أنت تحجز يوم {day} الساعة {time}.", "when_night": "أي في وقت متأخر من الليلة التي تبدأ مساء {prev}.", "btn_booking": "جارٍ الحجز…", "msg_booked": "تم حجز تجربتك المجانية في {day} الساعة {time}. سيصلك تأكيد الحجز عبر واتساب خلال دقائق.", "msg_already": "لديك حجز مسبق لتجربة مجانية في {day} الساعة {time}. لتغيير الموعد، راسلنا عبر واتساب.", "msg_member": "هذا الرقم مسجّل بعضوية في نادي المناعي الرياضي، لذا لا تحتاج إلى تجربة مجانية. إذا انتهت عضويتك، راسلنا عبر واتساب وسيساعدك فريق الاستقبال على تجديدها.", "msg_received": "شكرًا لك. سيتواصل معك فريق الاستقبال عبر واتساب.", "msg_fallback": "تعذّر إتمام الحجز عبر الموقع. سيفتح واتساب ليتولى فريق الاستقبال الحجز لك.", "err_name": "يرجى إدخال اسمك.", "err_phone": "يرجى إدخال رقم جوال بحريني مكوّن من 8 أرقام.", "err_time": "يرجى اختيار يوم ووقت لم يحن موعدهما بعد.", "wa_greeting": "السلام عليكم، أرغب في حجز تجربة مجانية.", "wa_name": "الاسم:", "wa_phone": "الموبايل:", "wa_time": "الوقت:", "wa_ref": "المرجع:", "pixel_optout_done": "تم. البكسل متوقف في هذا المتصفح."};
+  var T = {"day_today": "اليوم", "day_tomorrow": "غدًا", "form_hour_pick": "اختر الوقت", "hour_midnight": "12:00 منتصف الليل", "hour_noon": "12:00 ظهرًا", "when_line": "أنت تحجز يوم {day} الساعة {time}.", "when_night": "أي في وقت متأخر من الليلة التي تبدأ مساء {prev}.", "btn_booking": "جارٍ الحجز…", "msg_booked": "تم حجز تجربتك المجانية في {day} الساعة {time}. سيصلك تأكيد الحجز عبر واتساب خلال دقائق.", "msg_already": "لديك حجز مسبق لتجربة مجانية في {day} الساعة {time}. لتغيير الموعد، راسلنا عبر واتساب.", "msg_member": "هذا الرقم مسجّل بعضوية في نادي المناعي الرياضي، لذا لا تحتاج إلى تجربة مجانية. إذا انتهت عضويتك، راسلنا عبر واتساب وسيساعدك فريق الاستقبال على تجديدها.", "msg_received": "شكرًا لك. سيتواصل معك فريق الاستقبال عبر واتساب.", "msg_fallback": "تعذّر إتمام الحجز عبر الموقع. سيفتح واتساب ليتولى فريق الاستقبال الحجز لك.", "err_name": "يرجى إدخال اسمك.", "err_phone": "يرجى إدخال رقم جوال بحريني مكوّن من 8 أرقام.", "err_time": "يرجى اختيار يوم ووقت لم يحن موعدهما بعد.", "wa_greeting": "السلام عليكم، أرغب في حجز تجربة مجانية.", "wa_name": "الاسم:", "wa_phone": "الموبايل:", "wa_time": "الوقت:", "wa_ref": "المرجع:", "pixel_optout_done": "تم. البكسل ومعرف عداد الزيارات متوقفان في هذا المتصفح."};
   var WA = 'https://wa.me/97333101009';
   var loaded = Date.now();
   var q = new URLSearchParams(location.search);
@@ -479,10 +479,43 @@
     if (off) off.onclick = function (ev) {
       ev.preventDefault();
       store('amg_tracking', 'no');
+      try { localStorage.removeItem('amg_visitor'); } catch (e) {}
       if (window.fbq) window.fbq('consent', 'revoke');
       note.textContent = T.pixel_optout_done;
     };
   }
+
+  // ★ 0249 · Khalid, 30 Oct 2026: count who actually opens the link Ahmed sends.
+  // The page tells Gym OS it was opened (policy v1.6 §11.6A), with a random mark
+  // kept in this browser so one person opening it five times is told from five
+  // people. The mark is never sent with a name or a number. A visitor who opted
+  // out is counted with no mark, and a browser that will not keep the mark is
+  // counted without one. Sent and forgotten: a failure shows the visitor nothing.
+  function newMark() {
+    try {
+      if (typeof crypto === 'undefined') return null;
+      if (crypto.randomUUID) return crypto.randomUUID();
+      var b = crypto.getRandomValues(new Uint8Array(16));
+      b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+      var h = Array.prototype.map.call(b, function (x) { return (x + 256).toString(16).slice(1); }).join('');
+      return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+    } catch (e) { return null; }
+  }
+  function visitMark() {
+    if (read('amg_tracking') === 'no') return null;
+    var m = read('amg_visitor');
+    if (m && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(m)) return m;
+    m = newMark();
+    if (!m) return null;
+    store('amg_visitor', m);
+    return read('amg_visitor') === m ? m : null;
+  }
+  try {
+    fetch(API + '/visit', {
+      method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ lang: LANG, source: q.get('utm_source') || '', ref: ref, visitor: visitMark() })
+    }).catch(function () {});
+  } catch (e) {}
 })();
 
 </script>
