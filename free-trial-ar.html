@@ -198,6 +198,25 @@
   </div>
 </section>
 
+<!-- ★ 2 Nov 2026 (Khalid): the WhatsApp agent sends "where are you?" here — the place, a map button and the
+     booking button together, so he is one tap from booking. A link to Google Maps, not an embedded map:
+     nothing of Google's loads unless he taps it (privacy policy 11.1). -->
+<section id="location" class="shell lp-sec">
+  <div class="lp-head">
+    <div class="eyebrow">الموقع</div>
+    <h2 class="lp-h2">تجدنا في مجمع العلوي</h2>
+    <p class="lp-lead">في النويدرات، سند، مع مواقف في المجمع. النادي مفتوح <bdi><span dir="ltr">24/7</span></bdi>.</p>
+  </div>
+  <div class="lp-card" style="max-width:640px">
+    <b>نادي المناعي الرياضي</b>
+    <p>مجمع العلوي، مبنى <span dir="ltr">2561</span>، شارع <span dir="ltr">66</span>،<br>النويدرات، سند، مملكة البحرين</p>
+  </div>
+  <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:18px">
+    <a class="btn btn-red" href="#book" style="font-size:15px; padding:17px 26px">احجز تجربتك المجانية</a>
+    <a class="btn" href="https://maps.google.com/?q=26.1275421,50.5904409" target="_blank" rel="noopener" style="font-size:15px; padding:17px 26px; border:1px solid #3A3A3C; text-transform:none">افتح في <bdi><span dir="ltr">Google</span> Maps</bdi></a>
+  </div>
+</section>
+
 <section id="plans" class="shell lp-sec">
   <div class="lp-head">
     <div class="eyebrow">الاشتراكات والأسعار</div>
@@ -415,8 +434,9 @@
   // he types them himself.
   // The agent's link ends in #book: open AT the form, not the top (Khalid, 2 Nov 2026 — "the less
   // clicks, the better"). The browser's own jump is not reliable here, so the page scrolls itself.
-  if (location.hash === '#book') {
-    var bookEl = document.getElementById('book');
+  // ★ The agent also sends #inside (the photos), #plans (prices) and #location (the map) — each opens at its section.
+  if (/^#(book|inside|plans|location)$/.test(location.hash)) {
+    var bookEl = document.getElementById(location.hash.slice(1));
     // A few tries while the page settles (images, fonts and the browser's own scroll can move it back),
     // and once more when it has loaded — but never after he has touched or scrolled the page himself.
     var touched = false;
