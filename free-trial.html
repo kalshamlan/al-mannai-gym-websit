@@ -93,7 +93,7 @@
       <img src="assets/logo/AMG-logo-chrome.svg" alt="Al Mannai Gym" style="width:clamp(120px,13vw,168px); height:auto; display:block">
     </a>
     <div style="display:flex; gap:12px; align-items:center">
-      <a class="chiplink" href="https://wa.me/97333101009" target="_blank" rel="noopener" data-wa>WhatsApp</a>
+      <a class="chiplink" href="https://wa.me/97333335687" target="_blank" rel="noopener" data-wa>WhatsApp</a>
       <a class="lang-toggle" href="free-trial-ar.html" style="display:inline-flex" aria-label="التبديل إلى العربية">العربية</a>
     </div>
   </div>
@@ -110,7 +110,7 @@
     <p style="margin:0; font-size:clamp(17px,2vw,23px); line-height:1.6; color:#D8D8D5; max-width:52ch">A 24/7 men's gym at Al Alawi Mall, Nuwaidrat. Train on the full floor, then use the sauna, steam room and jacuzzi. No card, no commitment.</p>
     <div style="display:flex; flex-wrap:wrap; gap:12px">
       <a class="btn btn-red" href="#book" style="font-size:15px; padding:17px 26px">Book my free trial</a>
-      <a class="btn" href="https://wa.me/97333101009" target="_blank" rel="noopener" data-wa style="font-size:15px; padding:17px 26px; border:1px solid #3A3A3C">Message us on WhatsApp</a>
+      <a class="btn" href="https://wa.me/97333335687" target="_blank" rel="noopener" data-wa style="font-size:15px; padding:17px 26px; border:1px solid #3A3A3C">Message us on WhatsApp</a>
     </div>
   </div>
 </section>
@@ -294,7 +294,7 @@
   <p class="lp-lead">Open 24/7 at Al Alawi Mall, Nuwaidrat. Men 15 and over.</p>
   <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center">
     <a class="btn btn-red" href="#book" style="font-size:15px; padding:17px 26px">Book my free trial</a>
-    <a class="btn" href="https://wa.me/97333101009" target="_blank" rel="noopener" data-wa style="font-size:15px; padding:17px 26px; border:1px solid #3A3A3C">Message us on WhatsApp</a>
+    <a class="btn" href="https://wa.me/97333335687" target="_blank" rel="noopener" data-wa style="font-size:15px; padding:17px 26px; border:1px solid #3A3A3C">Message us on WhatsApp</a>
   </div>
 </section>
 </main>
@@ -316,7 +316,7 @@
 
 <div class="lp-sticky">
   <a class="btn btn-red" href="#book">Book my free trial</a>
-  <a class="btn" href="https://wa.me/97333101009" target="_blank" rel="noopener" data-wa style="border:1px solid #3A3A3C; flex:0 0 auto">WhatsApp</a>
+  <a class="btn" href="https://wa.me/97333335687" target="_blank" rel="noopener" data-wa style="border:1px solid #3A3A3C; flex:0 0 auto">WhatsApp</a>
 </div>
 
 </div>
@@ -336,12 +336,14 @@
   var NOTICE = 'trial-wa-2026-11-03';
   var PIXEL = '1082862534580652';
   var T = {"day_today": "Today", "day_tomorrow": "Tomorrow", "form_hour_pick": "Choose a time", "hour_midnight": "12:00 AM (midnight)", "hour_noon": "12:00 PM (noon)", "when_line": "You are booking {day} at {time}.", "when_night": "That is late on {prev} night.", "btn_booking": "Booking…", "msg_booked": "Your free trial is booked for {day} at {time}. Your confirmation will arrive on WhatsApp within a few minutes.", "msg_already": "You already have a free trial booked for {day} at {time}. To change it, message us on WhatsApp.", "msg_member": "This number is already registered as a member of Al Mannai Gym, so you don't need a free trial. If your membership has ended, message us on WhatsApp and reception will help you renew.", "msg_received": "Thank you. Reception will contact you on WhatsApp.", "msg_fallback": "We could not book it online, so WhatsApp will open for reception to book it for you.", "err_name": "Please enter your name.", "err_phone": "Please enter a Bahrain mobile number, 8 digits.", "err_time": "Please choose a day and a time that has not passed.", "wa_greeting": "Hello, I'd like to book my free trial.", "wa_name": "Name:", "wa_phone": "Mobile:", "wa_time": "Time:", "wa_ref": "Ref:", "pixel_optout_done": "Done. The pixel and the visit count's mark are off in this browser."};
-  var WA = 'https://wa.me/97333101009';
+  var WA = 'https://wa.me/97333335687';
   var loaded = Date.now();
   var q = new URLSearchParams(location.search);
   var fromAd = !!(q.get('utm_source') || q.get('utm_campaign') || q.get('fbclid'));
   var ref = [q.get('utm_campaign'), q.get('utm_content')].filter(Boolean).join('|').slice(0, 120);
-  var tag = ref ? 'B · ' + ref : 'B';
+  // ★ 3 Nov 2026 (session 115): the WhatsApp buttons open the gym's number (3333 5687), where the sales agent
+  // answers; the tag is the campaign this visit came from ("C-page|…"), or "site" — the agent reads it to file the chat.
+  var tag = ref || 'site';
   var form = document.getElementById('lp-form');
   var daySel = form.elements['day'], hourSel = form.elements['hour'];
   var msg = document.getElementById('lp-msg');
