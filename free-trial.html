@@ -409,6 +409,23 @@
   daySel.addEventListener('change', function () { fillHours(); sayWhen(); });
   hourSel.addEventListener('change', sayWhen);
   fillDays();
+  // ★ 2 Nov 2026 (Khalid): the WhatsApp sales agent sends this page with the day and hour he asked for
+  // (?day=YYYY-MM-DD&hour=H, Bahrain time). They are chosen for him when the page still offers that day;
+  // an hour it no longer offers moves to the next one it does. Name and number are never in the link —
+  // he types them himself.
+  (function preselect() {
+    var wantDay = q.get('day') || '', wantHour = q.get('hour') || '';
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(wantDay) || !daySel.querySelector('option[value="' + wantDay + '"]')) return;
+    daySel.value = wantDay;
+    fillHours();
+    if (!/^\d{1,2}$/.test(wantHour) || +wantHour > 23) return;
+    var h = +wantHour, pick = '';
+    for (var i = 0; i < hourSel.options.length; i++) {
+      var o = hourSel.options[i].value;
+      if (o !== '' && +o >= h) { pick = o; break; }
+    }
+    if (pick !== '') hourSel.value = pick;
+  })();
   sayWhen();
 
   function say(text, kind) { msg.textContent = text; msg.setAttribute('data-kind', kind || ''); msg.hidden = false; }
