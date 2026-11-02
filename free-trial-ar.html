@@ -413,6 +413,22 @@
   // (?day=YYYY-MM-DD&hour=H, Bahrain time). They are chosen for him when the page still offers that day;
   // an hour it no longer offers moves to the next one it does. Name and number are never in the link —
   // he types them himself.
+  // The agent's link ends in #book: open AT the form, not the top (Khalid, 2 Nov 2026 — "the less
+  // clicks, the better"). The browser's own jump is not reliable here, so the page scrolls itself.
+  if (location.hash === '#book') {
+    var bookEl = document.getElementById('book');
+    // A few tries while the page settles (images, fonts and the browser's own scroll can move it back),
+    // and once more when it has loaded — but never after he has touched or scrolled the page himself.
+    var touched = false;
+    ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(function (ev) {
+      window.addEventListener(ev, function () { touched = true; }, { passive: true, once: true });
+    });
+    var toForm = function () { if (!touched) bookEl.scrollIntoView({ block: 'start' }); };
+    if (bookEl) {
+      [60, 400, 1200].forEach(function (ms) { setTimeout(toForm, ms); });
+      window.addEventListener('load', function () { setTimeout(toForm, 80); });
+    }
+  }
   (function preselect() {
     var wantDay = q.get('day') || '', wantHour = q.get('hour') || '';
     if (!/^\d{4}-\d{2}-\d{2}$/.test(wantDay) || !daySel.querySelector('option[value="' + wantDay + '"]')) return;
