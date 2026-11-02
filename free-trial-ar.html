@@ -563,12 +563,31 @@
     store('amg_visitor', m);
     return read('amg_visitor') === m ? m : null;
   }
-  try {
-    fetch(API + '/visit', {
-      method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ lang: LANG, source: q.get('utm_source') || '', ref: ref, visitor: visitMark() })
-    }).catch(function () {});
-  } catch (e) {}
+  // ★ 3 Nov 2026 (session 115): Facebook's app can load an ad's page in the background before anyone taps it,
+  // and that load was counted — campaign C showed 28 opens against Meta's 9 clicks through. An open is now
+  // counted only once the page is on screen and in front of him; a page loaded in the background waits.
+  function sendVisit() {
+    try {
+      fetch(API + '/visit', {
+        method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ lang: LANG, source: q.get('utm_source') || '', ref: ref, visitor: visitMark() })
+      }).catch(function () {});
+    } catch (e) {}
+  }
+  var visitSent = false;
+  function visitIfSeen() {
+    if (visitSent || document.visibilityState !== 'visible' || document.prerendering) return;
+    if (typeof document.hasFocus === 'function' && !document.hasFocus()) return;
+    visitSent = true;
+    sendVisit();
+  }
+  document.addEventListener('visibilitychange', visitIfSeen);
+  document.addEventListener('prerenderingchange', visitIfSeen);
+  window.addEventListener('focus', visitIfSeen);
+  ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, visitIfSeen, { once: true, passive: true });
+  });
+  visitIfSeen();
 })();
 
 </script>
