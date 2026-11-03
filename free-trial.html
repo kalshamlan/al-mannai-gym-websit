@@ -453,8 +453,11 @@
   // The agent's link ends in #book: open AT the form, not the top (Khalid, 2 Nov 2026 — "the less
   // clicks, the better"). The browser's own jump is not reliable here, so the page scrolls itself.
   // ★ The agent also sends #inside (the photos), #plans (prices) and #location (the map) — each opens at its section.
-  if (/^#(book|inside|plans|location)$/.test(location.hash)) {
-    var bookEl = document.getElementById(location.hash.slice(1));
+  // ★ 3 Nov 2026 (session 115): the follow-up message's "See the plans" button cannot end in #plans (Meta puts
+  // the campaign tag at the very end of the link), so it says utm_content=plans and opens at the prices the same way.
+  var jumpTo = q.get('utm_content') === 'plans' && !location.hash ? '#plans' : location.hash;
+  if (/^#(book|inside|plans|location)$/.test(jumpTo)) {
+    var bookEl = document.getElementById(jumpTo.slice(1));
     // A few tries while the page settles (images, fonts and the browser's own scroll can move it back),
     // and once more when it has loaded — but never after he has touched or scrolled the page himself.
     var touched = false;
