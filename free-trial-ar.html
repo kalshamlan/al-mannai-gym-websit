@@ -342,8 +342,24 @@
   var fromAd = !!(q.get('utm_source') || q.get('utm_campaign') || q.get('fbclid'));
   var ref = [q.get('utm_campaign'), q.get('utm_content')].filter(Boolean).join('|').slice(0, 120);
   // ★ 3 Nov 2026 (session 115): the WhatsApp buttons open the gym's number (3333 5687), where the sales agent
-  // answers; the tag is the campaign this visit came from ("C-page|…"), or "site" — the agent reads it to file the chat.
-  var tag = ref || 'site';
+  // answers. Khalid: no visible "Ref: …" — it looks like a mistake and people delete it. The campaign travels as
+  // nine INVISIBLE characters after the greeting (zero-width joiner / non-joiner: a signature, then the campaign
+  // letter in five bits — Gym OS `waMarkOf` / `waMarkLetterOf`), and the button press itself is told to Gym OS
+  // (/api/trial/wa-tap), so a visitor who deletes the text and types his own question still counts for it.
+  function waMark() {
+    var m = /^([a-z])(?![a-z0-9])/i.exec(ref || '');
+    if (!m) return '';
+    var i = m[1].toUpperCase().charCodeAt(0) - 65, J = String.fromCharCode(0x200d), N = String.fromCharCode(0x200c);
+    return J + N + J + N + [4, 3, 2, 1, 0].map(function (b) { return (i >> b) & 1 ? J : N; }).join('');
+  }
+  function waTap() {
+    try {
+      fetch(API + '/wa-tap', {
+        method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ lang: LANG, ref: ref })
+      }).catch(function () {});
+    } catch (e) {}
+  }
   var form = document.getElementById('lp-form');
   var daySel = form.elements['day'], hourSel = form.elements['hour'];
   var msg = document.getElementById('lp-msg');
@@ -472,12 +488,12 @@
   function waText() {
     var when = (daySel.selectedOptions[0] ? daySel.selectedOptions[0].textContent : '') +
                (hourSel.value !== '' ? ' ' + hourLabel(+hourSel.value) : '');
-    return [T.wa_greeting, T.wa_name + ' ' + v('name'), T.wa_phone + ' ' + v('phone'),
-            T.wa_time + ' ' + when, T.wa_ref + ' ' + tag].join('\n');
+    return [T.wa_greeting + waMark(), T.wa_name + ' ' + v('name'), T.wa_phone + ' ' + v('phone'),
+            T.wa_time + ' ' + when].join('\n');
   }
   function fallback() {
     say(T.msg_fallback, 'warn');
-    setTimeout(function () { location.href = WA + '?text=' + encodeURIComponent(waText()); }, 1800);
+    setTimeout(function () { waTap(); location.href = WA + '?text=' + encodeURIComponent(waText()); }, 1800);
   }
 
   form.addEventListener('submit', function (e) {
@@ -512,7 +528,8 @@
   });
 
   document.querySelectorAll('[data-wa]').forEach(function (a) {
-    a.href = WA + '?text=' + encodeURIComponent(T.wa_greeting + '\n' + T.wa_ref + ' ' + tag);
+    a.href = WA + '?text=' + encodeURIComponent(T.wa_greeting + waMark());
+    a.addEventListener('click', waTap);
   });
 
   // Meta's pixel (policy v1.4 §11.6, Khalid 22 Oct 2026): it loads for every
